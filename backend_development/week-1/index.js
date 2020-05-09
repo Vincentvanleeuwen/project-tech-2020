@@ -1,16 +1,24 @@
+// Get Express
 let express = require('express');
 let app = express();
 
-app.get("/", (req, res) => {
-  res.send("yeet");
-});
-app.get("/about", (req, res) => {
-  res.send("yeet2");
-});
+// Get result from dogs
+let dogs = require('./routes/dogs');
+let profile = require('./routes/profile');
+const name = "Bobby";
+// Create a Route
+app.use(express.static('public'));
+
+// See all the dogs
+app.use('/', dogs);
+
+// Create a profile
+app.use('/' + name + '/', profile);
 
 
-
-
+// Listen on http://localhost:4000
 app.listen(4000, () => {
-  console.log("Example Port 4000");
+  console.log("Running on Port 4000");
 });
+
+
