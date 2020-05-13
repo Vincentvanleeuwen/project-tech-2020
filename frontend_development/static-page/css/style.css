@@ -1,81 +1,319 @@
 :root {
   --primary-color: #CBC197;
+  --secondary-color: #66483D;
   --call-to-action: #47B39D;
   --dark-color: #565656;
   --light-color: #fff;
-  --heading: 'Bevan', cursive;;
+  --heading: 'Bevan', cursive;
   --paragraph: 'Open Sans', sans-serif;
 }
 
-
-body {
-  background-color: var(--primary-color);
+* {
   box-sizing: border-box;
-  padding: 0;
+}
+body {
+  /*background-color: var(--primary-color);*/
+  background: linear-gradient(90deg, var(--primary-color), #d3cbb8);
+
+
   margin: auto;
   width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  padding-top: 25px;
+  font-family: var(--paragraph);
+
 }
 
-h1, h2, h3 {
+h1 {
   font-family: var(--heading);
 }
 
+h2, h3 {
+  font-family: var(--paragraph);
+  font-weight: 800;
+}
 p {
   font-family: var(--paragraph);
 }
 
 .dog {
-  height: 450px;
+  height: 425px;
   width: 100vw;
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
-  z-index: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1;
   margin: auto 0;
+  position: fixed;
 }
 
-.dog .profile-picture {
-  grid-row: 1/4;
-  grid-column: 1/3;
-
+.dog-image {
+  height: 2000px;
   width: 80vw;
-  margin-left: 9vw;
-  border: solid 5px var(--dark-color);
-}
-
-.dog .bone {
-  grid-row: 4;
-  grid-column: span 3;
-  position: absolute;
-  top: -1em;
-  left: .8em;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.bone img{
-  width: 80%;
-}
-.dog-name {
-  position: absolute;
-  top: .8em;
-  color: var(--call-to-action);
+  background-color: hsla(0, 0%, 90%, 0.5);
+  box-shadow: 0 0 0 10px hsla(38, 67%, 15%, 0.5), 0 0 0 15px hsla(42, 10%, 41%, 0.3);
 }
 
+.dog-image .profile-picture {
+  grid-row: 1/4;
+  grid-column: 1/3;
+  box-sizing: border-box;
+  width: 80vw;
+
+  /*border: hsla(168, 91%, 82%, 0.44) 7px solid;*/
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+
+}
+
+.dog-points {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr
+}
+.name-tag {
+  background-image: url(../media/images/bone.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -3em;
+}
+
+.dog-name {
+  color: var(--call-to-action);
+  margin-block-start: 0.60em;
+}
+
+.dog-biography {
+  margin-top: 800px;
+  padding: 2em 2em;
+  width: 100%;
+  position: absolute;
+  background-color: hsla(0, 0%, 34%, 0.7);
+  z-index: 2;
+  color: var(--light-color);
+}
+.dog-biography ul {
+  padding: 0;
+  text-decoration: none;
+  list-style-type: none;
+}
+.dog-biography h2 {
+  font-size: 1em;
+}
+.dog-biography .image-container {
+  display: flex;
+  align-content: space-between;
+  /* grid-gap: 9px; */
+  margin-bottom: 200px;
+}
+
+.dog-biography .image-container .single-image {
+  overflow: hidden;
+  height: 100px;
+  width: 100px;
+  padding: 0 5px;
+}
+.dog-biography .image-container .single-image:first-child {
+  padding-left: 0;
+
+}
+
+.image-popup {
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: 4;
+  /*display: none;*/
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.image-popup img {
+  height: 100%;
+
+}
+.dog-biography .image-container img {
+  width: 100px;
+  background-size:100% auto;
+
+  background-position: center center;
+}
+.dog-biography .image-container .single-image:first-child img {
+  transform: scale(2.0);
+}
+
+.dog-age {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 800;
+}
+
+.dog-points li:nth-child(odd) {
+  text-align: right;
+  width: 100%;
+}
+.dog-points li:nth-child(even) {
+  text-align: left;
+  width: 100%;
+  padding-left: 15px;
+}
+
+/* -------------- Top Navigation -----------*/
+
+.setting-nav {
+  background-image: url(../media/images/navbartop.png);
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+  width: 100vw;
+  height: 16vh;
+  position: fixed;
+  top: -5px;
+  left: 0;
+  z-index: 5;
+}
+.setting-nav ul {
+  padding: 0;
+  margin:0;
+  text-decoration: none;
+  list-style-type: none;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+}
+.setting-nav ul li {
+  width: calc(100%/2);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.setting-nav ul li img{
+  width: auto;
+  height: 50%;
+}
+.setting-nav ul li:first-child {
+  padding: 0 0 1em 8em;
+}
+
+.setting-nav ul li:last-child {
+  padding: 0 0 0 4em;
+}
+.setting-nav .setting-button {
+  margin-block-start: 10px;
+  margin-block-end: 30px;
+}
+/* Increase size of cogwheel*/
+.setting-nav .-addition img {
+  height: 65%;
+}
+
+
+/* ----------- Bottom Navigation --------------*/
 .action-nav {
   background-image: url("../media/images/navbar.png");
   background-repeat: no-repeat;
+  background-position: center bottom;
   background-size: cover;
   width: 100vw;
-  height: 10vh;
+  height: 12vh;
   position: fixed;
-  bottom: 0;
+  bottom: -5px;
   left: 0;
-  right: 0;
 
+  z-index: 5;
+
+}
+
+.action-nav ul {
+  padding: 0;
+  margin:0;
+  text-decoration: none;
+  list-style-type: none;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.action-nav ul li {
+  width: calc(100%/3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.action-nav ul li:last-of-type,
+.action-nav ul li:first-of-type {
+  flex-direction: column;
+  color: var(--dark-color);
+  text-align: center;
+}
+.slight-padding {
+  padding-top: 5px;
+
+}
+
+.match-button {
+  border-radius: 50%;
+  height: 5em;
+  width: 5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--call-to-action);
+  border: hsla(168, 91%, 82%, 0.44) 5px solid;
+  margin-block-start: -30px;
+  box-shadow: 0 5px 10px hsla(0, 0%, 0%, 0.2);
+}
+
+.match-button:hover, .match-button:active {
+  background-color: hsl(168, 91%, 82%);
+  border: var(--call-to-action) 5px solid;
+  transform: rotate(360deg);
+  transition: 1s;
+}
+
+/* ------------ Default Nav Elements ----------*/
+.default-button {
+  border-radius: 50%;
+  height: 3em;
+  width: 3em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--light-color);
+  border: hsla(168, 91%, 82%, 0.44) 5px solid;
+  margin-block-start: -15px;
+  margin-block-end: 5px;
+  box-shadow: 0 5px 10px hsla(0, 0%, 0%, 0.2);
+}
+
+
+
+.default-button img {
+  width: 80%;
+  height: auto;
 }

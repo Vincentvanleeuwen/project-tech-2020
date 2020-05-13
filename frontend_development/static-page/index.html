@@ -6,25 +6,110 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link href="https://fonts.googleapis.com/css2?family=Bevan&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/style.css">
   <title>PlayDate</title>
 </head>
 <body>
 
+  <nav class="setting-nav">
+    <ul>
+      <li>
+      <img src="./media/images/logo.png" alt="Logo" />
+      </li>
+      <li>
+
+
+        <div class="default-button setting-button">
+          <img src="./media/images/interface.png" alt="Settings"/>
+        </div>
+
+      </li>
+    </ul>
+
+  </nav>
+
+  <!--    On swipe left/right, go to the next or previous dog-->
+  <!--    On swipe up, open the dog biography-->
   <section class="dog">
-    <img class="profile-picture" src="./media/images/doggo.png" alt="Bobby the dog.">
-    <div class="bone">
-      <img src="./media/images/bone.png" alt="Bobby the dog.">
+    <div class="dog-image">
+      <img class="profile-picture" src="./media/images/bobby/bobby-pup.jpg" alt="Bobby the dog.">
+    </div>
+
+    <div class="name-tag">
       <h1 class="dog-name"> Bobby </h1>
     </div>
+  </section>
+  
+  <section class="dog-biography">
+    <h1> Bobby <span class="dog-age">(8)</span> </h1>
+
+    <ul class="dog-points">
+
+      <li> <strong> Breed &nbsp;&nbsp;&nbsp; |</strong> </li>
+      <li> Labrador/Beagle mix</li>
+
+      <li> <strong> Personality &nbsp;&nbsp;&nbsp; |</strong></li>
+      <li> Hungry & Playful</li>
+
+      <li> <strong> Favourite toy &nbsp;&nbsp;&nbsp; |</strong> </li>
+      <li>Tennis ball</li>
+    </ul>
+
+    <p> Bobby is always such a happy dog! He likes to eat (literally everything). He loves meeting new friends and
+      that's why he is here! He can play with all the dogs, hes a very charming guy.</p>
+
+    <h2>Looking for</h2>
+    <p> A friendly and playful dog that can play for hours because Bobby has no limit of stamina.</p>
+
+    <h2> More pictures of Bobby</h2>
+    <div class="image-container">
+<!--      If image.height || image.width <= height || width-->
+<!--      single-image: overflow: hidden-->
+<!--      img: transform: scale(2.0);-->
+      <div class="single-image">
+        <img src="./media/images/bobby/bobby-pup2.jpg"
+             alt="#">
+      </div>
+      <div class="single-image">
+        <img src="./media/images/bobby/bobby-old.jpeg"
+             alt="#">
+      </div>
+      <div class="single-image">
+        <img src="./media/images/bobby/bobby-old2.jpg"
+             alt="#">
+      </div>
+    </div>
+
+
+
+  </section>
+  <section class="image-popup">
+
+      <img src="./media/images/bobby/bobby-old2.jpg"
+           alt="#">
+
   </section>
 
   <nav class="action-nav">
     <ul>
-      <li></li>
-      <li></li>
-      <li></li>
+      <li>
+        <div class="default-button ">
+          <img src="./media/images/dog-icon.png" alt="All the Chats"/>
+        </div>
+        Profile
+      </li>
+      <li>
+        <div class="match-button">
+          <img src="media/images/dog-paw.png" alt="Match this dog!"/>
+        </div>
+      </li>
+      <li>
+        <div class="default-button slight-padding">
+          <img src="./media/images/chats.png" alt="All the Chats"/>
+        </div>
+        Chats
+      </li>
     </ul>
   </nav>
 </body>
