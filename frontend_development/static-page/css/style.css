@@ -1,0 +1,81 @@
+:root {
+  --primary-color: #CBC197;
+  --call-to-action: #47B39D;
+  --dark-color: #565656;
+  --light-color: #fff;
+  --heading: 'Bevan', cursive;;
+  --paragraph: 'Open Sans', sans-serif;
+}
+
+
+body {
+  background-color: var(--primary-color);
+  box-sizing: border-box;
+  padding: 0;
+  margin: auto;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h1, h2, h3 {
+  font-family: var(--heading);
+}
+
+p {
+  font-family: var(--paragraph);
+}
+
+.dog {
+  height: 450px;
+  width: 100vw;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  z-index: 700;
+  margin: auto 0;
+}
+
+.dog .profile-picture {
+  grid-row: 1/4;
+  grid-column: 1/3;
+
+  width: 80vw;
+  margin-left: 9vw;
+  border: solid 5px var(--dark-color);
+}
+
+.dog .bone {
+  grid-row: 4;
+  grid-column: span 3;
+  position: absolute;
+  top: -1em;
+  left: .8em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bone img{
+  width: 80%;
+}
+.dog-name {
+  position: absolute;
+  top: .8em;
+  color: var(--call-to-action);
+}
+
+.action-nav {
+  background-image: url("../media/images/navbar.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100vw;
+  height: 10vh;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+}

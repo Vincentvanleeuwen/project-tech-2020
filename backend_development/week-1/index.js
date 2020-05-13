@@ -7,7 +7,7 @@ let dogs = require('./routes/dogs');
 let profile = require('./routes/profile');
 const name = "Bobby";
 // Create a Route
-app.use(express.static('public'));
+app.use(express.static('pages'));
 
 // See all the dogs
 app.use('/', dogs);
