@@ -11,6 +11,8 @@
 * {
   box-sizing: border-box;
 }
+
+/* @@@@@@@@@@@ Mobile application @@@@@@@@@@@@*/
 body {
   /*background-color: var(--primary-color);*/
   background: linear-gradient(90deg, var(--primary-color), #d3cbb8);
@@ -25,7 +27,7 @@ body {
   flex-direction: column;
   padding-top: 25px;
   font-family: var(--paragraph);
-
+  overflow-x: hidden;
 }
 
 h1 {
@@ -112,6 +114,10 @@ p {
   text-decoration: none;
   list-style-type: none;
 }
+.dog-biography h1 {
+
+  text-align: center;
+}
 .dog-biography h2 {
   font-size: 1em;
 }
@@ -136,17 +142,19 @@ p {
 .image-popup {
   top: 0;
   left: 0;
-  position: absolute;
+  bottom: 0;
+  right: 0;
+  position: fixed;
   z-index: 4;
-  /*display: none;*/
+  display: none;
 
-  display: flex;
+  /*display: flex;*/
   justify-content: center;
   align-items: center;
 
 }
 .image-popup img {
-  height: 100%;
+  width: 90vw;
 
 }
 .dog-biography .image-container img {
@@ -177,14 +185,13 @@ p {
 /* -------------- Top Navigation -----------*/
 
 .setting-nav {
-  background-image: url(../media/images/navbartop.png);
+  background-image: url(../media/images/navbartop.svg);
   background-repeat: no-repeat;
-  background-position: center bottom;
   background-size: cover;
-  width: 100vw;
-  height: 16vh;
+  width: 100%;
+  height: 14vh;
   position: fixed;
-  top: -5px;
+  top: 0;
   left: 0;
   z-index: 5;
 }
@@ -228,26 +235,29 @@ p {
 .setting-nav .-addition img {
   height: 65%;
 }
+.setting-nav .desktop-nav {
+  display:none;
+}
+.action-bar-desktop {
+  display:none;
+}
 
 
 /* ----------- Bottom Navigation --------------*/
 .action-nav {
-  background-image: url("../media/images/navbar.png");
+  background-image: url(../media/images/navbar.svg);
   background-repeat: no-repeat;
-  background-position: center bottom;
   background-size: cover;
-  width: 100vw;
-  height: 12vh;
+  width: 100%;
+  height: initial;
   position: fixed;
-  bottom: -5px;
+  bottom: 0;
   left: 0;
-
   z-index: 5;
-
 }
 
 .action-nav ul {
-  padding: 0;
+  padding: 5px 0;
   margin:0;
   text-decoration: none;
   list-style-type: none;
@@ -271,6 +281,10 @@ p {
   color: var(--dark-color);
   text-align: center;
 }
+.action-bar-desktop {
+  display:none;
+}
+
 .slight-padding {
   padding-top: 5px;
 
@@ -316,4 +330,153 @@ p {
 .default-button img {
   width: 80%;
   height: auto;
+}
+
+/* @@@@@@@@ Tablet application @@@@@@@@@*/
+@media screen and (min-width: 30em ) {
+  .action-nav {
+    height: 12vh;
+  }
+  .setting-nav {
+    height: 18vh;
+  }
+  .match-button {
+    height: 10em;
+    width: 10em;
+    margin-block-start: -75px;
+  }
+  .match-button img {
+    height: 60%;
+  }
+  .default-button {
+    height: 6em;
+    width: 6em;
+    margin-block-start: -40px;
+  }
+  .dog {
+    height: 600px;
+  }
+  .dog-biography {
+    margin-top: 1100px;
+    font-size: 150%;
+
+  }
+  .dog-biography .image-container .single-image {
+    height: 250px;
+    width: 250px;
+  }
+  .dog-biography .image-container img {
+    width: 250px;
+  }
+}
+
+
+@media screen and (min-width: 60em ) {
+  body {
+    flex-direction: row;
+  }
+  .setting-nav .mobile-nav {
+    display: none;
+  }
+  .setting-nav .desktop-nav {
+    display: flex;
+    padding: 0 5em;
+  }
+  .setting-nav {
+    height: 10vh;
+  }
+  .setting-nav ul li:not(:first-child) {
+    flex: 1;
+    padding-top: 35px;
+    padding-left: 0;
+  }
+
+  .setting-nav ul li:first-child {
+    flex: 5;
+    display: flex;
+    align-items: flex-start;
+    padding: 0;
+  }
+  .setting-nav ul li:last-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .action-nav {
+    display: none;
+  }
+  .action-bar-desktop {
+    display: block;
+    width: 50vw;
+    height: initial;
+    position: fixed;
+    bottom: 2em;
+    left: 0;
+    z-index: 5;
+  }
+
+  .action-bar-desktop ul {
+    padding: 5px 0;
+    margin:0;
+    text-decoration: none;
+    list-style-type: none;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+  }
+
+  .action-bar-desktop ul li {
+    width: calc(100%/3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .action-bar-desktop ul li:last-of-type,
+  .action-bar-desktop ul li:first-of-type {
+    flex-direction: column;
+    color: var(--dark-color);
+    text-align: center;
+  }
+  .default-button {
+    height: 3em;
+    width: 3em;
+  }
+
+  .dog {
+    width: 50vw;
+    position: relative;
+  }
+  .dog-biography {
+    width: 50vw;
+    height: 100%;
+    margin-top: 0;
+    padding-top: 5em;
+
+    font-size: 100%;
+    position: relative;
+
+
+  }
+  .dog-biography h1 {
+    font-size: 3em;
+    text-align: left;
+  }
+  .dog-biography p {
+    font-size: 1.3em;
+    text-align: left;
+  }
+  .dog-biography h2 {
+    font-size: 1.5em;
+    text-align: left;
+    margin: 30px 0;
+  }
+  .dog-image {
+    height: 2000px;
+    width: 40vw;
+  }
+
 }
