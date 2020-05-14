@@ -341,17 +341,17 @@ p {
     height: 18vh;
   }
   .match-button {
-    height: 10em;
-    width: 10em;
-    margin-block-start: -75px;
+    height: 8em;
+    width: 8em;
+    margin-block-start: -50px;
   }
   .match-button img {
     height: 60%;
   }
   .default-button {
-    height: 6em;
-    width: 6em;
-    margin-block-start: -40px;
+    height: 4em;
+    width: 4em;
+    margin-block-start: -15px;
   }
   .dog {
     height: 600px;
@@ -374,6 +374,8 @@ p {
 @media screen and (min-width: 60em ) {
   body {
     flex-direction: row;
+    height: 100%;
+    justify-content: flex-end;
   }
   .setting-nav .mobile-nav {
     display: none;
@@ -411,7 +413,7 @@ p {
     width: 50vw;
     height: initial;
     position: fixed;
-    bottom: 2em;
+    bottom: 1em;
     left: 0;
     z-index: 5;
   }
@@ -444,11 +446,14 @@ p {
   .default-button {
     height: 3em;
     width: 3em;
+    margin-block-start: -33px;
   }
 
   .dog {
     width: 50vw;
-    position: relative;
+    position: fixed;
+    left: 0;
+    top: 15%;
   }
   .dog-biography {
     width: 50vw;
@@ -458,8 +463,12 @@ p {
 
     font-size: 100%;
     position: relative;
-
-
+  }
+  .dog-biography .image-container {
+    flex-wrap: wrap;
+  }
+  .dog-biography .image-container .single-image{
+    padding: 0;
   }
   .dog-biography h1 {
     font-size: 3em;
@@ -477,6 +486,10 @@ p {
   .dog-image {
     height: 2000px;
     width: 40vw;
+  }
+  .dog-biography .image-container .single-image:nth-child(odd) {
+    margin-bottom: 5px;
+    margin-right: 5px;
   }
 
 }
