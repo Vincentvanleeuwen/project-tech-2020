@@ -1,0 +1,6 @@
+# Backend Modules
+backend_development/week-1/.idea
+backend_development/week-1/node_modules
+
+# Project modules
+.idea
