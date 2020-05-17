@@ -1,5 +1,3 @@
-
-
 const router = require('express').Router();
 
 router.use(logThatTime = (req, res, next) => {
@@ -10,7 +8,9 @@ router.use(logThatTime = (req, res, next) => {
 
 // Show all the dogs on localhost:4000/
 router.get('/', (req, res) => {
-  res.send("All the dogs");
+  res.render('home', {
+    dogName: "Bobby"
+  });
 });
 
 router.get('/search', (req, res) => {

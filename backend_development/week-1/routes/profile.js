@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const favouritePage = require('../pages/favourite-page');
+const favouritePage = require('../views/favourite-page');
 
 router.use(logThatTime = (req, res, next) => {
   // Shows the time upon page load
@@ -22,5 +22,5 @@ router.get('/:id/about', (req, res) => {
   res.send('Bobbys Favourites');
 });
 
-// Exports the router so that index.js can require it.
+// Exports the router so that app.js can require it.
 module.exports = router;
