@@ -49,6 +49,7 @@
   window.addEventListener('mousemove', e => {
     trails.forEach((trail, index) => {
       setTimeout(()=> {
+        // Request an animation
         requestAnimationFrame(() =>{
 
           newPos = e.clientY;
@@ -60,6 +61,7 @@
         });
       }, index * 50);
       currentPos = e.clientY;
+
     });
   });
 
