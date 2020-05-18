@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Trail</title>
+</head>
+<style>
+  :root {
+    --y: 0;
+    --x: 0;
+    --scale: 1;
+  }
+  .trail { /* className for the trail elements */
+    position: absolute;
+    height: 5px; width: 5px;
+    border-radius: 3px;
+    background: teal;
+    /*transform: translateX(var(--x));*/
+    transform: translate(var(--x), var(--y) ) scale(var(--scale));
+  }
+  body {
+    height: 300px;
+  }
+</style>
+
+
+<body>
+<div class="trail"></div>
+<div class="trail"></div>
+<div class="trail"></div>
+<div class="trail"></div>
+<div class="trail"></div>
+<div class="trail"></div>
+
+<script>
+  const trails = [...document.querySelectorAll('.trail')];
+
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  let currentPos = 0;
+  let newPos = 0;
+  window.addEventListener('mousemove', e => {
+    trails.forEach((trail, index) => {
+      setTimeout(()=> {
+        requestAnimationFrame(() =>{
+
+          newPos = e.clientY;
+          trail.style.setProperty('--scale', ((newPos / currentPos) + .01) * 5);
+
+          trail.style.setProperty('--y', `${e.clientY}px`);
+          trail.style.setProperty('--x', `${e.clientX}px`);
+          trail.style.backgroundColor = `${getRandomColor()}`;
+        });
+      }, index * 50);
+      currentPos = e.clientY;
+    });
+  });
+
+
+  console.log("Hello")
+
+</script>
+</body>
+</html>

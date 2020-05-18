@@ -1,0 +1,325 @@
+:root {
+  --primary-color: #FFAF91;
+  --secondary-color: #FF9EA6;
+  --call-to-action: #03EBBB;
+  --error-color: #FF4D8F;
+  --dark-color: #565656;
+  --light-color: #fff;
+  --heading: 'Bevan', cursive;
+  --paragraph: 'Open Sans', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* @@@@@@@@@@@ Mobile application @@@@@@@@@@@@*/
+body {
+  background-color: var(--light-color);
+  margin: auto;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  /*padding-top: 25px;*/
+  /*font-family: var(--paragraph);*/
+  overflow-x: hidden;
+}
+
+h1 {
+  font-family: var(--heading);
+}
+
+h2, h3 {
+  font-family: var(--paragraph);
+  font-weight: 800;
+}
+p {
+  font-family: var(--paragraph);
+}
+
+
+.bg-circle {
+  background-color: var(--primary-color);
+  width: 100%;
+  height: 50%;
+  border-radius:50%;
+  position: absolute;
+  top: -25vh;
+}
+/*.dog {*/
+/*  height: 425px;*/
+/*  width: 100vw;*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*  flex-direction: column;*/
+/*  z-index: 1;*/
+/*  margin: auto 0;*/
+/*  position: fixed;*/
+/*}*/
+
+/*.dog-name {*/
+/*  color: var(--call-to-action);*/
+/*  margin-block-start: 0.60em;*/
+/*}*/
+
+
+/* -------------- Top Navigation -----------*/
+
+.setting-nav {
+  width: 100%;
+  height: 14vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+.setting-nav ul {
+  padding: 0;
+  margin:0;
+  text-decoration: none;
+  list-style-type: none;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+}
+.setting-nav ul li {
+  width: calc(100%/2);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.setting-nav .mobile-nav li {
+  flex: 1;
+}
+.setting-nav .mobile-nav li.current-page {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  font-family: var(--heading);
+  color: var(--light-color);
+  font-size: 1.5em;
+  flex: 3;
+}
+.setting-nav .desktop-nav {
+  display:none;
+}
+.action-bar-desktop {
+  display:none;
+}
+
+
+/* ----------- Bottom Navigation --------------*/
+.action-nav {
+  background-image: url(../media/images/test.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+  min-height: 4em;
+  background-size: cover;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  filter: drop-shadow(2px 4px 6px black);
+  z-index: 5;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.action-nav ul {
+  padding: 5px 0;
+  margin:0;
+  text-decoration: none;
+  list-style-type: none;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+  margin-block-start: -5px;
+}
+
+.action-nav ul li {
+  text-align: center;
+  font-size: .7em;
+
+}
+.action-nav ul li:first-of-type {
+  padding-right: 45px;
+}
+.action-nav ul li:last-of-type {
+  padding-left: 45px;
+}
+
+.action-bar-desktop {
+  display:none;
+}
+
+.default-button {
+  margin-bottom: 5px;
+}
+
+
+
+/* Matching Buttons */
+.match-buttons {
+  /*display: flex;*/
+  /*justify-content: space-between;*/
+  align-items: center;
+  flex-direction: row;
+  position: absolute;
+  /*bottom: 2em;*/
+  /*width: 13.5em;*/
+  z-index: 5;
+
+  bottom: 3em;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 0 23%;
+}
+
+.match-button img {
+  width: auto;
+  height: 5em;
+
+}
+
+.match-button:last-of-type img {
+  padding-left: 81px;
+}
+
+/*Dog match*/
+.dog-container {
+  margin-bottom: 60px;
+  height: 65vh;
+  width: 80vw;
+  background-color: var(--light-color);
+  border-radius: 50px;
+  box-shadow: #d0d0d0 0 3px 8px 0;
+  filter: drop-shadow(0 3px 8px #d0d0d0);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+}
+
+.dog-image {
+  height: 80%;
+  width: 100%;
+  border-radius: 50px 50px 0 50px;
+  position:relative;
+  overflow:hidden;
+}
+.dog-image .main-image{
+  width: 100%;
+  position:absolute;
+  top:0;
+  bottom:0;
+  margin: auto;
+}
+.dog-name {
+  font-family: var(--heading);
+  color: var(--dark-color);
+}
+.more-details {
+  background-color: var(--light-color);
+  width: 5em;
+  height: 2em;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: -1em;
+}
+.more-images {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 3em;
+  background-image: -webkit-gradient(
+    linear, left top, left bottom, from(rgba(80,80,80,0.0)),
+    to(rgba(50,50,50,0.8))
+  );
+  /*background-color: hsla(0, 0%, 34%, 0.7);*/
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  /*overflow: hidden;*/
+  padding-right: 10px;
+}
+.more-images .image-box {
+  width: 2.5em;
+  height: 2.5em;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-right: 5px;
+  background: var(--light-color);
+}
+
+/* Active Image*/
+.dog-image .more-images .image-box:first-child {
+  border: solid 2px var(--call-to-action);
+}
+
+.more-images img {
+  width: 100%;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+
+}
+
+@media screen and (min-width: 30em) {
+  .action-nav {
+    min-height: 5em;
+  }
+  .action-nav ul li {
+    font-size: 1em;
+  }
+  .default-button img {
+    width: 2em;
+    height: auto;
+  }
+
+  .match-button img {
+    width: auto;
+    height: 6em;
+  }
+  .match-button:last-of-type img {
+    padding-left: 106px;
+  }
+
+  .more-images {
+    right: 0;
+    height: 100%;
+    width: 5em;
+    flex-direction: column;
+    padding-right: 0;
+    padding-bottom: 10px;
+    background-image: -webkit-gradient( linear, right right, left left, from(rgba(80,80,80,0.0)), to(rgba(50,50,50,0.8)) );
+  }
+  .more-images .image-box {
+    width: 4em;
+    height: 4em;
+    margin-right: 0;
+    margin-top: 5px;
+  }
+}
