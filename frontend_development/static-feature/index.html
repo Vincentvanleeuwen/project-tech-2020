@@ -4,125 +4,203 @@
   <meta charset="UTF-8">
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link href="https://fonts.googleapis.com/css2?family=Bevan&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300,800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./css/style.css">
+  <meta http-equiv="X-UA-Compatible"
+        content="ie=edge">
+  <link href="https://fonts.googleapis.com/css2?family=Bevan&display=swap"
+        rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300,800&display=swap"
+        rel="stylesheet">
+  <link rel="stylesheet"
+        href="./css/style.css">
   <title>PlayDate</title>
 </head>
 <body>
-  <div class="bg-circle">
-
-  </div>
-  <nav class="setting-nav">
-    <ul class="mobile-nav">
-      <li></li>
-      <li class="current-page">
-        Match a dog.
-      </li>
-      <li>
+<div class="bg-circle"></div>
+<div class="bg-circle"></div>
+<nav class="setting-nav">
+  <ul class="mobile-nav">
+    <li></li>
+    <li class="current-page">
+      Match a dog.
+    </li>
+    <li>
+      <a href="#">
         <div class="default-button setting-button">
-          <img src="./media/images/settings.svg" alt="Settings"/>
+          <img src="./media/images/settings.svg"
+               alt="Settings"/>
         </div>
-      </li>
-    </ul>
+      </a>
+    </li>
+  </ul>
 
-    <ul class="desktop-nav">
-      <li>
-        <img src="./media/images/logo.png" alt="Logo" />
-      </li>
+  <ul class="desktop-nav">
 
-      <li>
+    <li>
+      <a href="#">
         <div class="default-button">
-          <img src="./media/images/matches.svg" alt="All the Chats"/>
+          <img src="./media/images/match.svg"
+               alt="Match a dog!"/>
+        </div>
+        Matches
+      </a>
+
+    </li>
+    <li>
+      <a href="pages/matches.html">
+        <div class="default-button">
+          <img src="./media/images/matches.svg"
+               alt="All your matches"/>
         </div>
         Chats
-      </li>
-      <li>
+      </a>
+    </li>
+    <li>
+      <a href="pages/matches.html">
         <div class="default-button ">
-          <img src="./media/images/profile.svg" alt="All the Chats"/>
+          <img src="./media/images/profile.svg"
+               alt="Dog Profile"/>
         </div>
         Profile
-      </li>
-      <li>
+      </a>
+    </li>
+    <li>
+      <a href="pages/matches.html">
         <div class="default-button">
-          <img src="./media/images/interface.png" alt="Settings"/>
+          <img src="./media/images/settings-green.svg"
+               alt="Settings"/>
         </div>
         Settings
-      </li>
-    </ul>
-  </nav>
+      </a>
+    </li>
+  </ul>
+</nav>
 
-  <!--    On swipe left/right, go to the next or previous dog-->
-  <!--    On swipe up, open the dog biography-->
-  <section class="dog-container">
-    <div class="dog-image">
-      <img src="./media/images/bobby/bobby-pup.jpg"
-           alt="Bobby"
-           class="main-image">
-{{!--      Extra images--}}
-      <div class="more-images">
-        <div class="image-box">
-          <img src="./media/images/bobby/bobby-pup.jpg"
-               alt="more pups"/>
-        </div>
-        <div class="image-box">
-          <img src="./media/images/bobby/bobby-pup2.jpg"
-               alt="more pups"/>
-        </div>
-        <div class="image-box">
-          <img src="./media/images/bobby/bobby-old.jpeg"
-               alt="more pups"/>
-        </div>
-        <div class="image-box">
-          <img src="./media/images/bobby/bobby-old2.jpg"
-               alt="more pups"/>
-        </div>
+<section class="new-dog-buttons">
 
-
-
-
-      </div>
-    </div>
-    <h2 class="dog-name"> Bobby. </h2>
-    <div class="more-details">
-      <img src="./media/images/arrowdown.svg"
-           alt="More Details">
-    </div>
-  </section>
-
-  <div class="match-buttons">
-    <div class="match-button">
-      <img src="media/images/decline.svg" alt="Match this dog!"/>
-    </div>
-    <div class="match-button">
-      <img src="media/images/accept.svg" alt="Match this dog!"/>
-    </div>
+  <div class="nav-button">
+    <img src="./media/images/arrowdown.svg"
+         alt=""
+         class="next-dog">
   </div>
 
-  <nav class="action-nav">
-    <ul>
-      <li>
-        <div class="default-button ">
-          <img src="./media/images/profile.svg" alt="Check your profile"/>
-        </div>
-        Profile
-      </li>
+  <div class="nav-button">
+    <img src="./media/images/arrowdown.svg"
+         alt=""
+         class="previous-dog">
+  </div>
 
-      <li>
-        <div class="default-button ">
-          <img src="./media/images/match.svg" alt="Match a new dog"/>
-        </div>
-        Match!
-      </li>
+</section>
+<!--    On swipe left/right, go to the next or previous dog-->
+<!--    On swipe up, open the dog biography-->
+<section class="dog-container">
+  <section class="dog-image">
+    <img src="./media/images/bobby/bobby-pup.jpg"
+         alt="Bobby"
+         class="main-image">
 
-      <li>
-        <div class="default-button ">
-          <img src="./media/images/matches.svg" alt="All the Chats"/>
+    <section class="more-images">
+      <div class="image-box">
+        <img src="./media/images/bobby/bobby-pup.jpg"
+             alt="more pups"/>
+      </div>
+      <div class="image-box">
+        <img src="./media/images/bobby/bobby-pup2.jpg"
+             alt="more pups"/>
+      </div>
+      <div class="image-box">
+        <img src="./media/images/bobby/bobby-old.jpeg"
+             alt="more pups"/>
+      </div>
+      <div class="image-box">
+        <img src="./media/images/bobby/bobby-old2.jpg"
+             alt="more pups"/>
+      </div>
+
+
+    </section>
+  </section>
+  <section class="dog-bio">
+    <h2 class="dog-name"> Bobby. </h2>
+    <section class="dog-desktop">
+
+      <section class="dog-points">
+        <div class="dog-points-titles">
+          <h3> Breed </h3>
+          <h3> Age </h3>
+          <h3> Personality </h3>
+          <h3> Favorite Key </h3>
         </div>
-        Chats
-      </li>
-    </ul>
-  </nav>
+        <div class="dog-points-answers">
+          <p>Labrador/Beagle mix</p>
+          <p>8</p>
+          <p>Hungry & Playful</p>
+          <p>Tennis ball</p>
+        </div>
+      </section>
+
+      <section class="dog-description">
+        <h3> Description </h3>
+        <p> Bobby is always such a happy dog! He likes to eat (literally everything). He loves meeting new friends and
+          that's why he is here! He can play with all the dogs, hes a very charming guy. </p>
+      </section>
+
+      <section class="match-buttons">
+        <div class="match-button">
+          <img src="media/images/decline.svg"
+               alt="Match this dog!"/>
+        </div>
+        <div class="match-button">
+          <img src="media/images/accept.svg"
+               alt="Match this dog!"/>
+        </div>
+      </section>
+
+    </section>
+  </section>
+
+  <section class="more-details">
+    <img src="./media/images/arrowdown.svg"
+         alt="More Details">
+  </section>
+</section>
+
+<section class="match-buttons disabled">
+  <div class="match-button">
+    <img src="media/images/decline.svg"
+         alt="Match this dog!"/>
+  </div>
+  <div class="match-button">
+    <img src="media/images/accept.svg"
+         alt="Match this dog!"/>
+  </div>
+</section>
+
+<nav class="action-nav">
+  <ul>
+    <li>
+      <div class="default-button ">
+        <img src="./media/images/profile.svg"
+             alt="Check your profile"/>
+      </div>
+      Profile
+    </li>
+
+    <li>
+      <div class="default-button ">
+        <img src="./media/images/match.svg"
+             alt="Match a new dog"/>
+      </div>
+      Match!
+    </li>
+
+    <li>
+      <div class="default-button ">
+        <img src="./media/images/matches.svg"
+             alt="All the Chats"/>
+      </div>
+      Matches
+    </li>
+  </ul>
+</nav>
 </body>
 </html>

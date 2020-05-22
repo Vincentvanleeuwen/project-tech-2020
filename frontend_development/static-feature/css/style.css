@@ -25,7 +25,7 @@ body {
   flex-direction: column;
   /*padding-top: 25px;*/
   /*font-family: var(--paragraph);*/
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 h1 {
@@ -40,6 +40,22 @@ p {
   font-family: var(--paragraph);
 }
 
+ul li a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  text-decoration: none;
+  color: var(--dark-color)
+}
+/* Hide on mobile */
+.dog-desktop {
+  display: none;
+}
+.desktop-nav {
+  display:none;
+}
+/*******************/
 
 .bg-circle {
   background-color: var(--primary-color);
@@ -49,22 +65,6 @@ p {
   position: absolute;
   top: -25vh;
 }
-/*.dog {*/
-/*  height: 425px;*/
-/*  width: 100vw;*/
-/*  display: flex;*/
-/*  justify-content: center;*/
-/*  align-items: center;*/
-/*  flex-direction: column;*/
-/*  z-index: 1;*/
-/*  margin: auto 0;*/
-/*  position: fixed;*/
-/*}*/
-
-/*.dog-name {*/
-/*  color: var(--call-to-action);*/
-/*  margin-block-start: 0.60em;*/
-/*}*/
 
 
 /* -------------- Top Navigation -----------*/
@@ -116,11 +116,14 @@ p {
 .action-bar-desktop {
   display:none;
 }
+.new-dog-buttons {
+  display: none;
+}
 
 
 /* ----------- Bottom Navigation --------------*/
 .action-nav {
-  background-image: url(../media/images/test.svg);
+  background-image: url(../media/images/navbar.svg);
   background-repeat: no-repeat;
   background-position: center;
   width: 100%;
@@ -174,15 +177,10 @@ p {
 
 /* Matching Buttons */
 .match-buttons {
-  /*display: flex;*/
-  /*justify-content: space-between;*/
   align-items: center;
   flex-direction: row;
   position: absolute;
-  /*bottom: 2em;*/
-  /*width: 13.5em;*/
-  z-index: 5;
-
+  z-index: 6;
   bottom: 3em;
   width: 100%;
   display: flex;
@@ -193,7 +191,6 @@ p {
 .match-button img {
   width: auto;
   height: 5em;
-
 }
 
 .match-button:last-of-type img {
@@ -254,12 +251,10 @@ p {
     linear, left top, left bottom, from(rgba(80,80,80,0.0)),
     to(rgba(50,50,50,0.8))
   );
-  /*background-color: hsla(0, 0%, 34%, 0.7);*/
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-  /*overflow: hidden;*/
   padding-right: 10px;
 }
 .more-images .image-box {
@@ -279,17 +274,23 @@ p {
 
 .more-images img {
   width: 100%;
-
   position: absolute;
   top: 0;
   bottom: 0;
   margin: auto;
-
 }
 
+
+.dog-bio {
+  display: flex;
+}
 @media screen and (min-width: 30em) {
+
+  .dog-container {
+    width: 60vw;
+  }
   .action-nav {
-    min-height: 5em;
+    min-height: 13vw;
   }
   .action-nav ul li {
     font-size: 1em;
@@ -321,5 +322,190 @@ p {
     height: 4em;
     margin-right: 0;
     margin-top: 5px;
+  }
+}
+
+@media screen and (min-width: 60em) {
+  /*Hide on desktop*/
+  .more-details {
+    display: none;
+  }
+  .action-nav {
+    display: none;
+  }
+
+  /* Hide mobile match buttons*/
+  .disabled {
+    display: none;
+  }
+  /*****************/
+  .setting-nav .desktop-nav {
+    display:flex;
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 8em;
+  }
+  .setting-nav .desktop-nav li {
+    width: 8em;
+  }
+  .setting-nav .desktop-nav li:nth-child(2) {
+    margin-right:20%;
+  }
+  .setting-nav .desktop-nav li:nth-child(3) {
+    margin-left: 20%;
+  }
+  .new-dog-buttons {
+    width: 100%;
+    height: 20%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .new-dog-buttons .nav-button {
+    background-color: var(--light-color);
+    width: 2em;
+    height: 5em;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    box-shadow: #d0d0d0 0 3px 8px 0;
+    cursor: pointer;
+    margin-top: 0;
+  }
+
+  .new-dog-buttons .nav-button:hover {
+    background-color: var(--call-to-action);
+    transition: 1s;
+  }
+  .new-dog-buttons .nav-button:active  {
+    background-color: var(--call-to-action);
+    margin-top: 2px;
+    transition: margin-top .1s ;
+
+  }
+  .new-dog-buttons .nav-button:first-of-type {
+    left: 2em;
+  }
+  .new-dog-buttons .nav-button:first-of-type img {
+    transform: rotate(90deg);
+  }
+  .new-dog-buttons .nav-button:last-of-type {
+    right: 2em;
+  }
+  .new-dog-buttons .nav-button:last-of-type img {
+    transform: rotate(-90deg);
+  }
+
+  .bg-circle {
+    width: 40%;
+    top: -25vh;
+  }
+  .bg-circle:last-of-type {
+    background-color: var(--secondary-color);
+    bottom: -25vh;
+    top: initial;
+  }
+  .dog-container {
+    margin-top: 3em;
+    height: 65vh;
+    width: 75vw;
+    align-items: flex-start;
+    flex-direction: row;
+    box-shadow: #27272757 0 13px 20px 0;
+    filter: none;
+  }
+  .dog-container .dog-image {
+    height: 100%;
+    width: 50%;
+  }
+
+
+  .dog-container .dog-bio {
+    width: 50%;
+    height: 100%;
+    flex-direction: column;
+  }
+  .dog-container .dog-bio .dog-desktop {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 90%;
+    padding-left: 2.5em;
+    position: relative;
+  }
+  .dog-container .dog-bio .dog-desktop .dog-points {
+    display: flex;
+    flex-direction: row;
+  }
+  .dog-container .dog-bio .dog-desktop .dog-points-titles {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+  }
+  .dog-container .dog-bio .dog-desktop .dog-points-titles h3,
+  .dog-container .dog-bio .dog-desktop .dog-description h3 {
+    font-family: var(--heading);
+    font-size: 1em;
+    color: var(--dark-color);
+
+    margin:5px 0;
+  }
+  .dog-container .dog-bio .dog-desktop .dog-description {
+    margin-top: 10px;
+  }
+  .dog-container .dog-bio .dog-desktop .dog-description p {
+    font-size: .8em;
+    padding-right: 2.5em;
+  }
+  .dog-container .dog-bio .dog-desktop .dog-points-answers {
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+  }
+  .dog-container .dog-bio .dog-desktop .dog-points-answers p {
+    font-family: var(--paragraph);
+    font-size: 1em;
+    color: var(--dark-color);
+    margin:5px 0;
+  }
+  .dog-container .dog-bio .dog-name {
+    height: 10%;
+    font-size: 2.2em;
+    font-weight: 100;
+    margin: .6em 0 .6em 1em;
+  }
+
+  .more-images {
+    width: 100%;
+    height: 5em;
+    flex-direction: row;
+    padding-right: 10px;
+    background-image: -webkit-gradient(
+      linear, left top, left bottom, from(rgba(80,80,80,0.1)),
+      to(rgba(50,50,50,0.8))
+    );
+  }
+  .more-images .image-box {
+    width: 4em;
+    height: 4em;
+    margin-top: auto;
+    margin-right: 10px;
+  }
+  .dog-desktop .match-buttons {
+    z-index: 5;
+    width: 80%;
+    bottom:0;
+  }
+  .dog-desktop .match-button:last-of-type img {
+    padding-left: 75px;
   }
 }
