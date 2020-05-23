@@ -1,9 +1,10 @@
 const router = require('express').Router();
 
-// Show match page on http://localhost:4000/
+// Show your matches on http://localhost:4000/matches
 router.get('/', (req, res) => {
   res.render('matches', {
-    dogName: "Bobby"
+    title: 'Your Matches',
+    style: 'matches.css'
   });
 });
 

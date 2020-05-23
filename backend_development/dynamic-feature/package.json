@@ -9,10 +9,10 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "express-handlebars": "^4.0.4",
-    "npx": "^10.2.2"
+    "express-handlebars": "^4.0.4"
   },
   "devDependencies": {
+    "eslint": "^7.1.0",
     "nodemon": "^2.0.3"
   },
   "repository": {

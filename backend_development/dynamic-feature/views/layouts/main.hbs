@@ -10,16 +10,15 @@
         rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300,800&display=swap"
         rel="stylesheet">
-{{!--  <link rel="stylesheet"--}}
-{{!--        href="../../static/styles/default.css">--}}
-{{!--  <link rel="stylesheet"--}}
-{{!--        href="../../static/styles/navigation.css">--}}
-{{!--  <link rel="stylesheet"--}}
-{{!--        href="../../static/styles/match.css">--}}
-  <link rel="stylesheet"
-        href="../../static/styles/style.css">
+{{!--  Default style--}}
+  <link href="../../public/styles/general.css"
+        rel="stylesheet">
 
-  <title>PlayDate</title>
+{{!--  Page Specific style--}}
+  <link rel="stylesheet"
+        href="../../public/styles/{{ style }}">
+
+  <title>{{ title }}</title>
 </head>
 <body>
 <div class="bg-circle"></div>
@@ -28,12 +27,12 @@
   <ul class="mobile-nav">
     <li></li>
     <li class="current-page">
-      Match a dog.
+      {{{ title }}}
     </li>
     <li>
       <a href="/settings">
         <div class="default-button setting-button">
-          <img src="../../static/media/images/settings.svg"
+          <img src="../../public/media/images/settings.svg"
                alt="Settings"/>
         </div>
       </a>
@@ -45,7 +44,7 @@
     <li>
       <a href="/">
         <div class="default-button">
-          <img src="../../static/media/images/match.svg"
+          <img src="../../public/media/images/match.svg"
                alt="Match a dog!"/>
         </div>
         Match
@@ -55,7 +54,7 @@
     <li>
       <a href="/matches">
         <div class="default-button">
-          <img src="../../static/media/images/matches.svg"
+          <img src="../../public/media/images/matches.svg"
                alt="All your matches"/>
         </div>
         Matches
@@ -64,7 +63,7 @@
     <li>
       <a href="/profile">
         <div class="default-button ">
-          <img src="../../static/media/images/profile.svg"
+          <img src="../../public/media/images/profile.svg"
                alt="Dog Profile"/>
         </div>
         Profile
@@ -73,7 +72,7 @@
     <li>
       <a href="/settings">
         <div class="default-button">
-          <img src="../../static/media/images/settings-green.svg"
+          <img src="../../public/media/images/settings-green.svg"
                alt="Settings"/>
         </div>
         Settings
@@ -81,6 +80,8 @@
     </li>
   </ul>
 </nav>
+
+
 
  {{{body}}}
 
@@ -90,7 +91,7 @@
     <li>
       <a href="/profile">
         <div class="default-button">
-          <img src="../../static/media/images/profile.svg"
+          <img src="../../public/media/images/profile.svg"
                alt="Check your profile"/>
         </div>
         Profile
@@ -100,7 +101,7 @@
     <li>
       <a href="/">
         <div class="default-button">
-          <img src="../../static/media/images/match.svg"
+          <img src="../../public/media/images/match.svg"
                alt="Match a new dog"/>
         </div>
         Match!
@@ -110,7 +111,7 @@
     <li>
       <a href="/matches">
         <div class="default-button">
-          <img src="../../static/media/images/matches.svg"
+          <img src="../../public/media/images/matches.svg"
                alt="All the Chats"/>
         </div>
         Matches

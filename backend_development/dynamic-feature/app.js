@@ -14,11 +14,15 @@ const name = "Bobby";
 
 // Asign handlebars as the engine
 app
-  .engine('hbs', handlebars({extname: 'hbs'}))
+  .engine('hbs', handlebars({
+    extname: 'hbs',
+    defaultLayout: 'main',
+    layoutsDir: __dirname + '/views/layouts'
+  }))
   .set('view engine', 'hbs')
 
 // Create a Route
-  .use('/static', express.static('static'))
+  .use('/public', express.static('public'))
 
 // See all the dogs
   .use('/', home)
