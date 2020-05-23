@@ -4,7 +4,8 @@ const router = require('express').Router();
 router.get('/', (req, res) => {
   res.render('home', {
     title: 'Match a dog!',
-    style: 'match.css'
+    style: 'match.css',
+    match: req.requestDogs
   });
 });
 

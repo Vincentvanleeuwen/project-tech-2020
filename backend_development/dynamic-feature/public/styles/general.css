@@ -49,6 +49,10 @@ ul li a {
   color: var(--dark-color);
   cursor: pointer;
 }
+
+nav {
+  z-index: 8!important;
+}
 /* Hide on mobile */
 .dog-desktop,
 .desktop-nav,

@@ -31,11 +31,13 @@
 
 .matches-container .single-match .match-content {
   display: flex;
-  justify-content: space-around;
+  padding-left: .5em;
   align-items: center;
   width: 65%;
 }
-
+.matches-container .single-match .match-content .chat-info {
+  padding-left: .5em;
+}
 .matches-container .single-match .profile-picture {
   width: 3em;
   height: 3em;
@@ -55,9 +57,7 @@
   transform: rotate(-90deg);
 
 }
-.matches-container .single-match .chat-info {
 
-}
 .matches-container .single-match .chat-info .chat-name {
   font-size: 1em;
   font-family: var(--heading);
@@ -71,7 +71,7 @@
   color: var(--call-to-action);
 }
 
-.matches-container .single-match .chat-info .previous-message {
+.matches-container .single-match .chat-info .last-message {
   font-size: 0.8em;
 }
 

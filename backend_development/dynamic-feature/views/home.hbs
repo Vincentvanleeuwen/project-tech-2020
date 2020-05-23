@@ -1,119 +1,42 @@
-{{!--Only if dog exists --}}
+{{#> layouts/main }}
+  <section class="new-dog-buttons">
 
-{{!--<section class="current-user">--}}
-{{!--  {{#if dogName}}--}}
-{{!--    <h1> {{dogName}}</h1>--}}
-{{!--  {{/if}}--}}
+    <div class="nav-button">
+      <img src="../public/media/images/arrowdown.svg"
+           alt=""
+           class="next-dog">
+    </div>
 
-{{!--</section>--}}
+    <div class="nav-button">
+      <img src="../public/media/images/arrowdown.svg"
+           alt=""
+           class="previous-dog">
+    </div>
 
-{{!--<section class="messages">--}}
-
-{{!--</section>--}}
-
-{{!--<section class="chat">--}}
-{{!--  <input type="text">--}}
-{{!--  <button> Send </button>--}}
-{{!--</section>--}}
-
-
-
-<section class="new-dog-buttons">
-
-  <div class="nav-button">
-    <img src="../public/media/images/arrowdown.svg"
-         alt=""
-         class="next-dog">
-  </div>
-
-  <div class="nav-button">
-    <img src="../public/media/images/arrowdown.svg"
-         alt=""
-         class="previous-dog">
-  </div>
-
-</section>
-<!--    On swipe left/right, go to the next or previous dog-->
-<!--    On swipe up, open the dog biography-->
-<section class="dog-container">
-  <section class="dog-image">
-    <img src="../public/media/images/bobby/bobby-pup.jpg"
-         alt="Bobby"
-         class="main-image">
-
-    <section class="more-images">
-      <div class="image-box">
-        <img src="../public/media/images/bobby/bobby-pup.jpg"
-             alt="more pups"/>
-      </div>
-      <div class="image-box">
-        <img src="../public/media/images/bobby/bobby-pup2.jpg"
-             alt="more pups"/>
-      </div>
-      <div class="image-box">
-        <img src="../public/media/images/bobby/bobby-old.jpeg"
-             alt="more pups"/>
-      </div>
-      <div class="image-box">
-        <img src="../public/media/images/bobby/bobby-old2.jpg"
-             alt="more pups"/>
-      </div>
-
-
-    </section>
-  </section>
-  <section class="dog-bio">
-    <h2 class="dog-name"> Bobby. </h2>
-    <section class="dog-desktop">
-
-      <section class="dog-points">
-        <div class="dog-points-titles">
-          <h3> Breed </h3>
-          <h3> Age </h3>
-          <h3> Personality </h3>
-          <h3> Favorite Key </h3>
-        </div>
-        <div class="dog-points-answers">
-          <p>Labrador/Beagle mix</p>
-          <p>8</p>
-          <p>Hungry & Playful</p>
-          <p>Tennis ball</p>
-        </div>
-      </section>
-
-      <section class="dog-description">
-        <h3> Description </h3>
-        <p> Bobby is always such a happy dog! He likes to eat (literally everything). He loves meeting new friends and
-          that's why he is here! He can play with all the dogs, hes a very charming guy. </p>
-      </section>
-
-      <section class="match-buttons">
-        <div class="match-button">
-          <img src="../public/media/images/decline.svg"
-               alt="Match this dog!"/>
-        </div>
-        <div class="match-button">
-          <img src="../public/media/images/accept.svg"
-               alt="Match this dog!"/>
-        </div>
-      </section>
-
-    </section>
   </section>
 
-  <section class="more-details">
-    <img src="../public/media/images/arrowdown.svg"
-         alt="More Details">
-  </section>
-</section>
+  {{#with match.[0] }}
+    {{> singleMatch
+      name = name
+      images = images
+      chatStatus = status
+      lastMessage = lastMessage
+      breed = breed
+      description = description
+      favToy = favToy
+      age = age
+      personality = personality
+    }}
+  {{/with}}
 
-<section class="match-buttons disabled">
-  <div class="match-button">
-    <img src="../public/media/images/decline.svg"
-         alt="Match this dog!"/>
-  </div>
-  <div class="match-button">
-    <img src="../public/media/images/accept.svg"
-         alt="Match this dog!"/>
-  </div>
-</section>
+  <section class="match-buttons disabled">
+    <div class="match-button">
+      <img src="../public/media/images/decline.svg"
+           alt="Match this dog!"/>
+    </div>
+    <div class="match-button">
+      <img src="../public/media/images/accept.svg"
+           alt="Match this dog!"/>
+    </div>
+  </section>
+{{/layouts/main}}
