@@ -27,6 +27,15 @@
   background-color: var(--light-color);
   padding-right: 1em;
   margin-bottom: 1em;
+  cursor: pointer;
+}
+
+.active-chat {
+  background-color: var(--call-to-action)!important;
+  animation: point-right 1s cubic-bezier(.81,.04,.78,.97) forwards;
+}
+.active-chat .chat-status {
+  color: var(--dark-color)!important;
 }
 
 .matches-container .single-match .match-content {
@@ -45,6 +54,7 @@
   border-top-right-radius: 0;
   overflow: hidden;
   box-shadow: #d0d0d0 0 3px 8px 0;
+  background: #fff;
 }
 .matches-container .single-match .profile-picture img {
   width: 100%;
@@ -97,7 +107,10 @@
     background-color: var(--light-color);
     box-shadow: #d0d0d0 0 3px 8px 0;
     z-index: 5;
-    border-radius: 50px;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
   }
   .chat-container .dog-image {
     height: 25%;
@@ -107,7 +120,7 @@
     position: relative;
     display: flex;
     justify-content: center;
-    margin-bottom: 2em;
+    margin-bottom: .5em;
   }
   .chat-container .chat-input label {
     display: flex;
@@ -202,9 +215,10 @@
   }
   .is-typing {
     position: absolute;
-    bottom: 4em;
+    bottom: 3em;
+    color: var(--dark-color);
     opacity: 0.5;
-    padding: 1em;
+    animation: fade-in .3s forwards;
   }
 }
 
@@ -214,5 +228,17 @@
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes point-right {
+  0% {
+    margin-left: 0;
+  }
+  50% {
+    margin-left:5px;
+  }
+  100% {
+    margin-left: 0;
   }
 }

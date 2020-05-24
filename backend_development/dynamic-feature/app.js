@@ -10,60 +10,16 @@ const port = 4000 || process.env.PORT;
 let home = require('./routes/home');
 let matches = require('./routes/matches');
 
-const dogs = [
-  {
-    id: 0,
-    name: 'Bobby',
-    images: ['bobby-pup.jpg', 'bobby-pup2.jpg', 'bobby-old.jpeg', 'bobby-old2.jpg'],
-    status: 'New message',
-    lastMessage: 'Hello How r u',
-    description: 'Bobby is always such a happy dog! He likes to eat (literally everything). He loves meeting new friends and that\'s why he is here! He can play with all the dogs, hes a very charming guy.',
-    breed: 'Labrador/Beagle mix',
-    favToy: 'Tennis Ball',
-    age: "8",
-    personality: "Hungry & Playful",
-    matches: [2]
-  },
-  {
-    id: 1,
-    name: 'Bobo',
-    images: ['bobby-pup.jpg', 'bobby-pup2.jpg', 'bobby-old.jpeg', 'bobby-old2.jpg'],
-    status: '5 New messages',
-    lastMessage: 'Holo',
-    description: 'Bobo make friend',
-    breed: 'Bulldog',
-    favToy: 'Your leg',
-    age: "5",
-    personality: "Active & Goofy",
-    matches: [2]
-  },
-  {
-    id: 2,
-    name: 'Bongy',
-    images: ['bobby-pup.jpg', 'bobby-pup2.jpg', 'bobby-old.jpeg', 'bobby-old2.jpg'],
-    status: 'Old message',
-    lastMessage: 'Heyyyyyy',
-    description: 'Very big chungus',
-    breed: 'Samoyed',
-    favToy: 'Squishy toy',
-    age: "3",
-    personality: "Energetic & Sweet",
-    matches: [0, 1]
-  }
-];
-var requestMatches = function (req, res, next) {
-  let loggedInDog = dogs[0];
+// Require Utilities
+const {
+  selectedConversation,
+  dogMatches,
+  requestMatches
+} = require('./public/utils/matching');
 
-  // Check if a dog is a match
-  dogMatches = dogs.filter(dog => {
-    if (loggedInDog.matches.includes(dog.id)) {
-      return dog;
-    }
-  });
 
-  req.requestMatches = dogMatches;
-  next()
-};
+
+
 // Assign handlebars as the view engine
 app.engine('hbs', handlebars({
     extname: 'hbs',
@@ -76,7 +32,7 @@ app.engine('hbs', handlebars({
 // Create a Route
   .use('/public', express.static('public'))
 
-  .use(requestMatches)
+  .use(requestMatches, selectedConversation)
 
 // See all the dogs
   .use('/', home)
@@ -85,12 +41,20 @@ app.engine('hbs', handlebars({
   .use('/matches', matches);
 
 io.sockets.on('connection', socket => {
+  socket.username = "Anon";
+
+  socket.on('match-room', data => {
+    socket.join(data.email);
+  });
+
   socket.on('dog-message', message => {
     socket.broadcast.emit('message', message);
   });
   socket.on('typing', data => {
-    socket.broadcast.emit('typing', {username: "Bobby"})
-  })
+    socket.broadcast.emit('typing', {username: socket.username})
+  });
+
+
 });
 
 // Listen on http://localhost:4000
