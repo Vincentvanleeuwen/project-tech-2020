@@ -18,43 +18,41 @@
   <section class="dog-image">
     <img src="../public/media/images/bobby/bobby-pup.jpg"
          alt="Bobby"
-         class="main-image">
-
-
+         class="main-image"/>
   </section>
+
   <div class="chat-bulbs">
-    <div class="single-bulb">
-      <div class="bulb">
-        <div class="bulb-content">
-          Hey! How are you?
-        </div>
-        <span class="bulb-timestamp">
-        April 10 | 10:22
-      </span>
-      </div>
+{{!--    <div class="single-bulb">--}}
+{{!--      <div class="bulb">--}}
+{{!--        <div class="bulb-content">--}}
+{{!--          Hey! How are you?--}}
+{{!--        </div>--}}
+{{!--        <span class="bulb-timestamp">--}}
+{{!--        April 10 | 10:22--}}
+{{!--      </span>--}}
+{{!--      </div>--}}
+{{!--    </div>--}}
 
-    </div>
+{{!--    <div class="single-bulb self">--}}
+{{!--      <div class="bulb">--}}
+{{!--        <div class="bulb-content">--}}
+{{!--          Hey! How are you?--}}
+{{!--        </div>--}}
+{{!--        <span class="bulb-timestamp">--}}
+{{!--        April 10 | 10:22--}}
+{{!--      </span>--}}
+{{!--      </div>--}}
 
-    <div class="single-bulb self">
-      <div class="bulb">
-        <div class="bulb-content">
-          Hey! How are you?
-        </div>
-        <span class="bulb-timestamp">
-        April 10 | 10:22
-      </span>
-      </div>
-
-    </div>
+{{!--    </div>--}}
   </div>
 
-  <section class="chat-input">
+  <form class="chat-input">
     <label for="message">
-      <input name="message" type="text" placeholder="Send a message..."/>
+      <input name="message" type="text" placeholder="Send a message..." id="chat-input"/>
     </label>
-    <img src="../public/media/images/send.svg"
-         alt="Send Message">
-  </section>
+
+    <button type="submit" id="send-message"></button>
+  </form>
 </section>
 
 {{/layouts/main}}

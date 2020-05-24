@@ -1,10 +1,9 @@
 // Get Express
-const path = require('path');
 const express = require('express');
 const handlebars = require('express-handlebars');
 const app = express();
 const server = require('http').createServer(app);
-
+const io = require('socket.io')(server);
 const port = 4000 || process.env.PORT;
 
 // Require the routes
@@ -13,6 +12,7 @@ let matches = require('./routes/matches');
 
 const dogs = [
   {
+    id: 0,
     name: 'Bobby',
     images: ['bobby-pup.jpg', 'bobby-pup2.jpg', 'bobby-old.jpeg', 'bobby-old2.jpg'],
     status: 'New message',
@@ -21,20 +21,34 @@ const dogs = [
     breed: 'Labrador/Beagle mix',
     favToy: 'Tennis Ball',
     age: "8",
-    personality: "Hungry & Playful"
-
+    personality: "Hungry & Playful",
+    matches: [2]
   },
   {
+    id: 1,
     name: 'Bobo',
     images: ['bobby-pup.jpg', 'bobby-pup2.jpg', 'bobby-old.jpeg', 'bobby-old2.jpg'],
-    status: 'New message',
-    lastMessage: 'Hello How r u'
+    status: '5 New messages',
+    lastMessage: 'Holo',
+    description: 'Bobo make friend',
+    breed: 'Bulldog',
+    favToy: 'Your leg',
+    age: "5",
+    personality: "Active & Goofy",
+    matches: [2]
   },
   {
+    id: 2,
     name: 'Bongy',
     images: ['bobby-pup.jpg', 'bobby-pup2.jpg', 'bobby-old.jpeg', 'bobby-old2.jpg'],
-    status: 'New message',
-    lastMessage: 'Hello How r u'
+    status: 'Old message',
+    lastMessage: 'Heyyyyyy',
+    description: 'Very big chungus',
+    breed: 'Samoyed',
+    favToy: 'Squishy toy',
+    age: "3",
+    personality: "Energetic & Sweet",
+    matches: [0, 1]
   }
 ];
 var requestDogs = function (req, res, next) {
@@ -61,9 +75,14 @@ app.engine('hbs', handlebars({
 // Create a profile
   .use('/matches', matches);
 
+io.sockets.on('connection', socket => {
+  socket.on('dog-message', message => {
+    socket.broadcast.emit('message', message);
+  })
+});
 
 // Listen on http://localhost:4000
-server.listen(port, () => console.log("Running on Port", port));
+server.listen(port, () => console.log('Running on Port', port));
 
 
 
