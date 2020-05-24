@@ -5,7 +5,7 @@ router.get('/', (req, res) => {
   res.render('matches', {
     title: 'Your Matches',
     style: 'matches.css',
-    match: req.requestDogs
+    match: req.requestMatches
   });
 });
 

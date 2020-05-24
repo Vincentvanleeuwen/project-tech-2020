@@ -51,8 +51,17 @@ const dogs = [
     matches: [0, 1]
   }
 ];
-var requestDogs = function (req, res, next) {
-  req.requestDogs = dogs;
+var requestMatches = function (req, res, next) {
+  let loggedInDog = dogs[0];
+
+  // Check if a dog is a match
+  dogMatches = dogs.filter(dog => {
+    if (loggedInDog.matches.includes(dog.id)) {
+      return dog;
+    }
+  });
+
+  req.requestMatches = dogMatches;
   next()
 };
 // Assign handlebars as the view engine
@@ -67,7 +76,7 @@ app.engine('hbs', handlebars({
 // Create a Route
   .use('/public', express.static('public'))
 
-  .use(requestDogs)
+  .use(requestMatches)
 
 // See all the dogs
   .use('/', home)
@@ -78,6 +87,9 @@ app.engine('hbs', handlebars({
 io.sockets.on('connection', socket => {
   socket.on('dog-message', message => {
     socket.broadcast.emit('message', message);
+  });
+  socket.on('typing', data => {
+    socket.broadcast.emit('typing', {username: "Bobby"})
   })
 });
 

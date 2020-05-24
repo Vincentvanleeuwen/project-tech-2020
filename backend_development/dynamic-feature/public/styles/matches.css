@@ -86,6 +86,7 @@
     margin-top: 0;
   }
   .chat-container {
+    position: relative;
     width: 30vw;
     max-width: 20em;
     height: 60vh;
@@ -115,7 +116,7 @@
   }
   .chat-container .chat-input input{
     width: 90%;
-    padding: 12px 20px;
+    padding: 12px 45px 12px 20px;
     margin: 8px 0;
     box-shadow: #d0d0d0 0 3px 8px 0;
     border: 1px solid #fff;
@@ -164,8 +165,10 @@
   .single-bulb {
     width: 100%;
     height: max-content;
-
+    animation: fade-in .3s forwards;
+    opacity: 0;
   }
+
   .bulb {
     width: max-content;
     max-width: 100%;
@@ -178,6 +181,7 @@
   .bulb-content {
     width: 100%;
     height: max-content;
+    line-break: anywhere;
     padding: .4em 2em;
     border-radius: 25px;
     background-color: var(--primary-color);
@@ -195,5 +199,20 @@
   }
   .self .bulb-content {
     background-color: var(--secondary-color);
+  }
+  .is-typing {
+    position: absolute;
+    bottom: 4em;
+    opacity: 0.5;
+    padding: 1em;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
