@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible"
+        content="ie=edge">
+  <link href="https://fonts.googleapis.com/css2?family=Bevan&display=swap"
+        rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300,800&display=swap"
+        rel="stylesheet">
+  <link rel="stylesheet"
+        href="../css/style.css">
+  <title>PlayDate</title>
+  <style>
+    /* New Match Page */
+    .dog-container {
+      height: 33vh;
+    }
+    .dog-container .dog-image {
+      height: 70%;
+    }
+    .dog-bio .dog-name {
+      margin: 5px;
+      font-weight: 300;
+    }
+
+    .new-match {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      height: 8em;
+    }
+    .primary-btn {
+      width: 10em;
+      height: 2em;
+      border-radius: 50px;
+      background-color: var(--call-to-action);
+      color: white;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .secondary-btn {
+      width: 10em;
+      height: 2em;
+      border-radius: 50px;
+      border: solid 3px var(--call-to-action);
+      color: var(--call-to-action);
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+    .secondary-btn:hover {
+      color: white;
+      background-color: var(--call-to-action);
+      transition: .5s;
+    }
+    .primary-btn:hover {
+      color: var(--call-to-action);
+      background-color: white;
+      border: solid 3px var(--call-to-action);
+      transition: .5s;
+    }
+    @media screen and (min-width: 60em) {
+      body {
+        flex-direction: row;
+      }
+
+      .dog-container {
+        width: 45vw;
+        height: 45vh;
+        flex-direction: column;
+        align-items: center;
+        margin-right: 5em;
+
+      }
+      .dog-container .dog-image {
+        width: 100%;
+      }
+      .dog-container .dog-bio {
+        height: 30%;
+        width: initial;
+      }
+      .more-details {
+        display: flex;
+      }
+      .dog-container .dog-bio .dog-name {
+        margin: 5px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+<div class="bg-circle"></div>
+<div class="bg-circle"></div>
+<nav class="setting-nav">
+  <ul class="mobile-nav">
+    <li></li>
+    <li class="current-page">
+      Matches
+    </li>
+    <li>
+      <a href="#">
+        <div class="default-button setting-button">
+          <img src="../media/images/settings.svg"
+               alt="Settings"/>
+        </div>
+      </a>
+    </li>
+  </ul>
+
+  <ul class="desktop-nav">
+
+    <li>
+      <a href="#">
+        <div class="default-button">
+          <img src="../media/images/match.svg"
+               alt="Match a dog!"/>
+        </div>
+        Matches
+      </a>
+
+    </li>
+    <li>
+      <a href="matches.html">
+        <div class="default-button">
+          <img src="../media/images/matches.svg"
+               alt="All your matches"/>
+        </div>
+        Chats
+      </a>
+    </li>
+    <li>
+      <a href="matches.html">
+        <div class="default-button ">
+          <img src="../media/images/profile.svg"
+               alt="Dog Profile"/>
+        </div>
+        Profile
+      </a>
+    </li>
+    <li>
+      <a href="matches.html">
+        <div class="default-button">
+          <img src="../media/images/settings-green.svg"
+               alt="Settings"/>
+        </div>
+        Settings
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<section class="matches-container">
+  <div class="single-match">
+    <div class="match-content">
+    <div class="profile-picture">
+      <img src="../media/images/bobby/bobby-pup.jpg"
+           alt="More Details">
+    </div>
+
+    <div class="chat-info">
+      <h2 class="chat-name">
+        Bobby.
+      </h2>
+      <div class="chat-status">
+        New message
+      </div>
+      <div class="previous-message">
+        Hey! How are you?
+      </div>
+
+    </div>
+      </div>
+    <img src="../media/images/arrowdown.svg"
+         alt="Go to chat"
+         class="chat-button">
+  </div>
+  <div class="single-match">
+    <div class="match-content">
+      <div class="profile-picture">
+        <img src="../media/images/bobby/bobby-pup.jpg"
+             alt="More Details">
+      </div>
+
+      <div class="chat-info">
+        <h2 class="chat-name">
+          Bobby.
+        </h2>
+        <div class="chat-status">
+          New message
+        </div>
+        <div class="previous-message">
+          Hey! How are you?
+        </div>
+
+      </div>
+    </div>
+    <img src="../media/images/arrowdown.svg"
+         alt="Go to chat"
+         class="chat-button">
+  </div>
+</section>
+
+<section class="chat-container">
+  <section class="dog-image">
+    <img src="../media/images/bobby/bobby-pup.jpg"
+         alt="Bobby"
+         class="main-image">
+
+
+  </section>
+  <div class="chat-bulbs">
+    <div class="single-bulb">
+      <div class="bulb">
+        <div class="bulb-content">
+          Hey! How are you?
+        </div>
+        <span class="bulb-timestamp">
+        April 10 | 10:22
+      </span>
+      </div>
+
+    </div>
+
+    <div class="single-bulb self">
+      <div class="bulb">
+        <div class="bulb-content">
+          Hey! How are you?
+        </div>
+        <span class="bulb-timestamp">
+        April 10 | 10:22
+      </span>
+      </div>
+
+    </div>
+  </div>
+
+  <section class="chat-input">
+    <label for="message">
+    <input name="message" type="text" placeholder="Send a message..."/>
+    </label>
+    <img src="../media/images/send.svg"
+         alt="Send Message">
+  </section>
+</section>
+
+<nav class="action-nav">
+  <ul>
+    <li>
+      <div class="default-button ">
+        <img src="../media/images/profile.svg"
+             alt="Check your profile"/>
+      </div>
+      Profile
+    </li>
+
+    <li>
+      <div class="default-button ">
+        <img src="../media/images/match.svg"
+             alt="Match a new dog"/>
+      </div>
+      Match!
+    </li>
+
+    <li>
+      <div class="default-button ">
+        <img src="../media/images/matches.svg"
+             alt="All the Chats"/>
+      </div>
+      Matches
+    </li>
+  </ul>
+</nav>
+</body>
+</html>

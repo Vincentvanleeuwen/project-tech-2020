@@ -1,0 +1,32 @@
+{
+  "name": "PlayDate",
+  "version": "1.0.0",
+  "description": "Learning Node.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^4.0.4",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.1.0",
+    "nodemon": "^2.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vincentvanleeuwen/project-tech-2020/backend_development/week-1/index.html"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "Vincent van Leeuwen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vincentvanleeuwen/project-tech-2020/backend_development/week-1/index.html/issues"
+  },
+  "homepage": "https://vincentvanleeuwen.github.io/project-tech-2020/backend_development/dynamic-feature/app.js"
+}

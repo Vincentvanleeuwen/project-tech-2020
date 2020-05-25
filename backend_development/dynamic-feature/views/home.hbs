@@ -1,0 +1,42 @@
+{{#> layouts/main }}
+  <section class="new-dog-buttons">
+
+    <div class="nav-button">
+      <img src="../public/media/images/arrowdown.svg"
+           alt=""
+           class="next-dog">
+    </div>
+
+    <div class="nav-button">
+      <img src="../public/media/images/arrowdown.svg"
+           alt=""
+           class="previous-dog">
+    </div>
+
+  </section>
+
+  {{#with match.[0] }}
+    {{> singleMatch
+      name = name
+      images = images
+      chatStatus = status
+      lastMessage = lastMessage
+      breed = breed
+      description = description
+      favToy = favToy
+      age = age
+      personality = personality
+    }}
+  {{/with}}
+
+  <section class="match-buttons disabled">
+    <div class="match-button">
+      <img src="../public/media/images/decline.svg"
+           alt="Match this dog!"/>
+    </div>
+    <div class="match-button">
+      <img src="../public/media/images/accept.svg"
+           alt="Match this dog!"/>
+    </div>
+  </section>
+{{/layouts/main}}
