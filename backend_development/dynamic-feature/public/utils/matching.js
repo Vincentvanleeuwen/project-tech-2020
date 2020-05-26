@@ -1,12 +1,12 @@
-const dogs = require("../../data/dogs.json");
+// const dogs = require("../../data/dogs.json");
 
-function dogMatches() {
+function dogMatches(dogs) {
 
-  let loggedInDog = dogs.dogs[0];
+  let loggedInDog = dogs[0];
 
   // console.log('loggedindog=', dogArray[0] );
   // Check if a dog is a match
-  filteredDogs = dogs.dogs.filter( dog => {
+  filteredDogs = dogs.filter( dog => {
 
       // console.log('singledog', Object.keys(dog)[0]);
       // console.log('Matches ',loggedInDog['matches']);
@@ -17,35 +17,22 @@ function dogMatches() {
         console.log("Could not find any matches.");
       }
   });
-  // console.log('filtered dog returns ', filteredDogs);
-  console.log(filteredDogs);
+
   return filteredDogs;
-
 }
 
-function requestMatches(req, res, next) {
-  // Give function to children
-  req.requestMatches = dogMatches();
-  next()
-}
 
-function selectedConversation(req, res, next) {
+function selectedConversation(dogs) {
+
   // Get first dog in array to open instantly.
-  console.log('Dogmatchie', dogMatches());
-  selectedDog = dogMatches()[0].images;
+  selectedDog = dogMatches(dogs)[0].images;
 
   // More soon...
   // let index = Array.from(document.getElementsByClassName('single-matches')).indexOf('.active-chat');
 
-
-  // Give function to children
-  req.selectedDog = selectedDog;
-  next()
 }
 
-
 module.exports = {
-  requestMatches,
   selectedConversation,
   dogMatches
 };

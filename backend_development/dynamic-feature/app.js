@@ -17,69 +17,147 @@ const {
 require('dotenv').config();
 
 const port = 4000 || process.env.PORT;
-// const dogs = require('./data/dogs.json');
 
 // Require the routes
 let home = require('./routes/home');
 let matches = require('./routes/matches');
 
-let message = mongoose.model('Message', {
-  name: String,
-  time: String
-});
-
-let db = null;
-const dbUrl = `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}`;
 
 
-// fs.readFile(__dirname + '/data/dogs.txt', 'utf-8', (err, dogs) => {
+runMongo()
+  .then(dogs => {
+
+    // Assign handlebars as the view engine
+    app.engine('hbs', handlebars({
+      extname: 'hbs',
+      defaultLayout: 'main',
+      layoutsDir: __dirname + '/views/layouts',
+      partialsDir: __dirname + '/views/partials'
+    }))
+    .set('view engine', 'hbs')
+
+    // Create a Route
+    .use('/public', express.static('public'))
+
+
+    // See all the dogs
+    .use('/', home)
+
+    // Create a profile
+    .use('/matches', matches, (req, res, next) => {
+      console.log(dogMatches(dogs));
+      req.matches = dogMatches(dogs);
+      req.selected = selectedConversation(dogs);
+      next()
+    });
+
+    io.sockets.on('connection', socket => {
+      socket.username = "Anon";
+
+      socket.on('match-room', data => {
+        socket.join(data.email);
+      });
+
+      socket.on('dog-message', message => {
+        socket.broadcast.emit('message', message);
+      });
+      socket.on('typing', data => {
+        socket.broadcast.emit('typing', {username: socket.username})
+      });
+
+      socket.on('chat-index', index => {
+        chatIndex = index;
+        console.log("chatindex in app.js = ", chatIndex);
+      })
+
+    });
+
+
+
+    // Listen on http://localhost:4000
+    server.listen(port, () => console.log('Running on Port', port));
+
+
+
+
+  })
+  .catch(error => console.log(error.stack));
+
+
+
+async function runMongo() {
+
+  const dbUrl = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@playdate-npesr.mongodb.net/playdatedatabase?retryWrites=true&w=majority`;
+
+  await mongoose.connect(dbUrl,  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+
+  const db = mongoose.connection;
+
+  db.on('connected', () => {
+    console.log(db);
+
+    console.log(`Connected!`)
+  });
+
+  db.on('error', err => console.log(`MongoDB connection error: ${err}`));
+
+  const Schema = mongoose.Schema;
+
+  const dogSchema = new Schema({
+    email: String,
+    name: String,
+    images: Array,
+    status: String,
+    lastMessage: String,
+    description: String,
+    breed: String,
+    favToy: String,
+    age: String,
+    personality: String,
+    matches: Array
+  }, {collection: 'dogs'});
+//
+  const dog = mongoose.model('dogModel', dogSchema);
+
+  // await dog.create({
+  //   email: 'testdog@dog.com',
+  //   name: 'testie',
+  //   images: ['test.jpg'],
+  //   status: 'Test status',
+  //   lastMessage: 'Example test',
+  //   description: 'Test Example',
+  //   breed: 'TestBreed',
+  //   favToy: 'Testtoy',
+  //   age: '7',
+  //   personality: 'cool',
+  //   matches: ['bobby@gmail.com']
+  // });
+
+  allDogs = await dog.find();
+
+  return allDogs;
+
+}
+
+
+
+// // Saving data to database
+// const message = {
+//   from: 'bobby@gmail.com'
+//   to: 'bungo@bing.com'
+//   message: 'testdog@dog.com',
+//   time: 'testie',
+// };
+// const newMessage = new messageModel(message);
+
+// newMessage.save((err) => {
 //   if (err) throw err;
-//   console.log(dogs);
-//   allDogs = dogs;
+//   else console.log("Saved Message");
 // });
 
-// Assign handlebars as the view engine
-app.engine('hbs', handlebars({
-    extname: 'hbs',
-    defaultLayout: 'main',
-    layoutsDir: __dirname + '/views/layouts',
-    partialsDir: __dirname + '/views/partials'
-  }))
-  .set('view engine', 'hbs')
-
-// Create a Route
-  .use('/public', express.static('public'))
-
-  .use(requestMatches, selectedConversation)
-
-// See all the dogs
-  .use('/', home)
-
-// Create a profile
-  .use('/matches', matches);
-
-io.sockets.on('connection', socket => {
-  socket.username = "Anon";
-
-  socket.on('match-room', data => {
-    socket.join(data.email);
-  });
-
-  socket.on('dog-message', message => {
-    socket.broadcast.emit('message', message);
-  });
-  socket.on('typing', data => {
-    socket.broadcast.emit('typing', {username: socket.username})
-  });
-
-
-});
-
-// mongoose.connect(dbUrl,  {useNewUrlParser: true});
-// mongoose.connection.on('error', err => `MongoDB connection error: ${err}`);
-
-// Listen on http://localhost:4000
-server.listen(port, () => console.log('Running on Port', port));
 
 
 

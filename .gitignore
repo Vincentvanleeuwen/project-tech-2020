@@ -3,6 +3,7 @@ backend_development/week-1/.idea
 backend_development/week-1/node_modules
 backend_development/dynamic-feature/.idea
 backend_development/dynamic-feature/node_modules
+backend_development/dynamic-feature/.env
 
 # Project modules
 .idea

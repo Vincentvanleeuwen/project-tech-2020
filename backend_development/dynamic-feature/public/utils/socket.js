@@ -1,5 +1,3 @@
-
-// const moment = require('moment');
 const socket = io();
 const chatContainer = document.querySelector('.chat-container');
 const chatInput = document.getElementById('chat-input');
@@ -15,11 +13,12 @@ socket.on('message', message => {
   }
 
 });
+if (chatInput) {
+  chatInput.addEventListener('keypress', () => {
+    socket.emit('typing');
+  });
+}
 
-chatInput.addEventListener('keypress', () => {
-  socket.emit('typing');
-
-});
 
 socket.on('typing', data => {
 
@@ -34,22 +33,22 @@ socket.on('typing', data => {
 
 });
 
-chatContainer.addEventListener('submit', e => {
-  e.preventDefault();
-  const message = chatInput.value;
+if(chatContainer) {
+  chatContainer.addEventListener('submit', e => {
+    e.preventDefault();
+    const message = chatInput.value;
 
-  if (message.length === 0) {
-    console.log('Empty input');
-  } else {
-    addNewMessage(message, ' self');
-  }
-  socket.emit('dog-message', message);
+    if (message.length === 0) {
+      console.log('Empty input');
+    } else {
+      addNewMessage(message, ' self');
+    }
+    socket.emit('dog-message', message);
 
-  // Clear the input when someone sends their message
-  chatInput.value = '';
-});
-
-
+    // Clear the input when someone sends their message
+    chatInput.value = '';
+  });
+}
 
 if (chatButtons) {
 
@@ -62,19 +61,27 @@ if (chatButtons) {
 
     button.addEventListener('click', () => {
 
+      // Remove the active class
       currentlyActive.classList.remove('active-chat');
+
+      // Add active class to clicked element
       button.classList.add('active-chat');
+
+      // Set clicked element to current active element.
       currentlyActive = button;
 
-      socket.emit('match-room', {email: 'bobby@gmail.com'});
-      console.log("hello");
 
+      socket.emit('chat-index', getIndexOfChat(button));
+
+      socket.emit('match-room', {email: 'bobby@gmail.com'});
     });
   });
 
 }
 
 
+
+//Create HTML element of a chatbubble.
 function addNewMessage(message, receiver) {
 
   const chatBulb = document.createElement('div');
@@ -104,5 +111,10 @@ function addNewMessage(message, receiver) {
 
   // Scroll to bottom to always see newest chat message
   chatBulbContainer.scrollTop = chatBulbContainer.scrollHeight - chatBulbContainer.clientHeight;
+}
+
+function getIndexOfChat(button) {
+  const chats = Array.prototype.slice.call(chatButtons);
+  return chats.indexOf(button);
 }
 

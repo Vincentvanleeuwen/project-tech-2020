@@ -1,5 +1,5 @@
-{
-  "dogs":
+
+
     [
       {
         "email": "bobby@gmail.com",
@@ -66,7 +66,7 @@
       },
       {
         "email": "bungo@bing.com",
-        "name": "Bongy",
+        "name": "Bungo",
         "images": [
         "bobby-old2.jpg",
         "bobby-old.jpeg",
@@ -84,4 +84,3 @@
       }
     ]
 
-}
