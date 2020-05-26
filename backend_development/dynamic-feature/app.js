@@ -4,21 +4,39 @@ const handlebars = require('express-handlebars');
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
+const mongoose = require('mongoose');
+
+// Require Utilities
+const {
+  selectedConversation,
+  requestMatches,
+  dogMatches
+} = require('./public/utils/matching');
+
+
+require('dotenv').config();
+
 const port = 4000 || process.env.PORT;
+// const dogs = require('./data/dogs.json');
 
 // Require the routes
 let home = require('./routes/home');
 let matches = require('./routes/matches');
 
-// Require Utilities
-const {
-  selectedConversation,
-  dogMatches,
-  requestMatches
-} = require('./public/utils/matching');
+let message = mongoose.model('Message', {
+  name: String,
+  time: String
+});
+
+let db = null;
+const dbUrl = `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}`;
 
 
-
+// fs.readFile(__dirname + '/data/dogs.txt', 'utf-8', (err, dogs) => {
+//   if (err) throw err;
+//   console.log(dogs);
+//   allDogs = dogs;
+// });
 
 // Assign handlebars as the view engine
 app.engine('hbs', handlebars({
@@ -56,6 +74,9 @@ io.sockets.on('connection', socket => {
 
 
 });
+
+// mongoose.connect(dbUrl,  {useNewUrlParser: true});
+// mongoose.connection.on('error', err => `MongoDB connection error: ${err}`);
 
 // Listen on http://localhost:4000
 server.listen(port, () => console.log('Running on Port', port));
