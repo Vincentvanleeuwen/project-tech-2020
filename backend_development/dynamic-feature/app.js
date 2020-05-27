@@ -53,7 +53,7 @@ runMongo()
     // fix this!!!!!!!!!!!!
     // Create a profile
 
-    .use('/matches', dogVariables(dogs), matches);
+    .use('/matches', (req, res, next) => dogVariables(dogs, req, res, next), matches);
 
     io.sockets.on('connection', socket => {
       socket.username = "Anon";
@@ -74,8 +74,6 @@ runMongo()
         console.log("chatindex in app.js = ", chatIndex);
       });
 
-
-      console.log('doggies work?', dogVariables(dogs));
 
     });
 
@@ -143,7 +141,7 @@ async function runMongo() {
   //   matches: ['bobby@gmail.com']
   // });
 
-  allDogs = await dog.find();
+  allDogs = await dog.find().lean();
 
   return allDogs;
 
