@@ -22,8 +22,10 @@ let home = require('./routes/home');
 let matches = require('./routes/matches');
 
 function dogVariables(dogs, req, res, next) {
-  console.log(dogMatches(dogs));
-  req.matches = dogMatches(dogs);
+  console.log('dogsb4function: ', dogs.length);
+  console.log('dogmatchfunction: ', dogMatches(dogs)); // Shows matches of the dog in JSON
+
+  req.matches = dogMatches(dogs); // TypeError: Cannot set property 'matches' of undefined
   req.selected = selectedConversation(dogs);
   next()
 }
