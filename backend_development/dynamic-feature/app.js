@@ -9,7 +9,6 @@ const mongoose = require('mongoose');
 // Require Utilities
 const {
   selectedConversation,
-  requestMatches,
   dogMatches
 } = require('./public/utils/matching');
 
@@ -23,6 +22,7 @@ let home = require('./routes/home');
 let matches = require('./routes/matches');
 
 function dogVariables(dogs, req, res, next) {
+  console.log(dogMatches(dogs));
   req.matches = dogMatches(dogs);
   req.selected = selectedConversation(dogs);
   next()
@@ -51,7 +51,7 @@ runMongo()
     // fix this!!!!!!!!!!!!
     // Create a profile
 
-    .use('/matches', matches, dogVariables(dogs));
+    .use('/matches', dogVariables(dogs), matches);
 
     io.sockets.on('connection', socket => {
       socket.username = "Anon";
@@ -73,7 +73,7 @@ runMongo()
       });
 
 
-
+      console.log('doggies work?', dogVariables(dogs));
 
     });
 
