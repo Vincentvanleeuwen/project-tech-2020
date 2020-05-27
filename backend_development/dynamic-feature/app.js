@@ -22,11 +22,14 @@ const port = 4000 || process.env.PORT;
 let home = require('./routes/home');
 let matches = require('./routes/matches');
 
-
+function dogVariables(dogs, req, res, next) {
+  req.matches = dogMatches(dogs);
+  req.selected = selectedConversation(dogs);
+  next()
+}
 
 runMongo()
   .then(dogs => {
-
     // Assign handlebars as the view engine
     app.engine('hbs', handlebars({
       extname: 'hbs',
@@ -43,13 +46,9 @@ runMongo()
     // See all the dogs
     .use('/', home)
 
+    // fix this!!!!!!!!!!!!
     // Create a profile
-    .use('/matches', matches, (req, res, next) => {
-      console.log(dogMatches(dogs));
-      req.matches = dogMatches(dogs);
-      req.selected = selectedConversation(dogs);
-      next()
-    });
+    .use('/matches', matches);
 
     io.sockets.on('connection', socket => {
       socket.username = "Anon";
