@@ -28,8 +28,10 @@ function dogVariables(dogs, req, res, next) {
   next()
 }
 
+
 runMongo()
   .then(dogs => {
+
     // Assign handlebars as the view engine
     app.engine('hbs', handlebars({
       extname: 'hbs',
@@ -48,7 +50,8 @@ runMongo()
 
     // fix this!!!!!!!!!!!!
     // Create a profile
-    .use('/matches', matches);
+
+    .use('/matches', matches, dogVariables(dogs));
 
     io.sockets.on('connection', socket => {
       socket.username = "Anon";
@@ -67,7 +70,10 @@ runMongo()
       socket.on('chat-index', index => {
         chatIndex = index;
         console.log("chatindex in app.js = ", chatIndex);
-      })
+      });
+
+
+
 
     });
 
