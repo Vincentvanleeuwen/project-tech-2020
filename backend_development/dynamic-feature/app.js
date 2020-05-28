@@ -77,12 +77,8 @@ runMongo()
 
     });
 
-
-
     // Listen on http://localhost:4000
     server.listen(port, () => console.log('Running on Port', port));
-
-
 
 
   })
@@ -141,9 +137,9 @@ async function runMongo() {
   //   matches: ['bobby@gmail.com']
   // });
 
-  allDogs = await dog.find().lean();
 
-  return allDogs;
+
+  return await dog.find().lean();
 
 }
 
