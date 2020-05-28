@@ -5,6 +5,8 @@ const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const mongoose = require('mongoose');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 // Require Utilities
 const {
@@ -21,15 +23,44 @@ const port = 4000 || process.env.PORT;
 let home = require('./routes/home');
 let matches = require('./routes/matches');
 
-function dogVariables(dogs, req, res, next) {
-  console.log('dogsb4function: ', dogs.length);
-  console.log('dogmatchfunction: ', dogMatches(dogs)); // Shows matches of the dog in JSON
 
-  req.matches = dogMatches(dogs); // TypeError: Cannot set property 'matches' of undefined
-  req.selected = selectedConversation(dogs);
+// let hardCodedUser = "bobby@gmail.com";
+let db;
+
+function dogVariables(dogs, req, res, next) {
+
+  req.session.user = {email: "bobby@gmail.com"};
+
+  req.matches = dogMatches(dogs, req.session.user); // TypeError: Cannot set property 'matches' of undefined
+  req.selected = selectedConversation(dogs, req.session.user);
   next()
 }
 
+function initializeSocketIO(req, res, next) {
+  // Initialize Socket.io
+  io.sockets.on('connection', socket => {
+    socket.username = 'anon';
+
+
+    socket.on('match-room', data => {
+      socket.join(data.email);
+    });
+
+    socket.on('dog-message', message => {
+      socket.broadcast.emit('message', message);
+    });
+    socket.on('typing', data => {
+      socket.broadcast.emit('typing', {username: socket.username})
+    });
+
+    socket.on('chat-index', index => {
+      chatIndex = index;
+      console.log("chatindex in app.js = ", chatIndex);
+
+    });
+
+  });
+}
 
 runMongo()
   .then(dogs => {
@@ -43,39 +74,39 @@ runMongo()
     }))
     .set('view engine', 'hbs')
 
-    // Create a Route
+    // Initialize a session
+    .use(session({
+      name: 'sid', // Session ID
+      resave: false, // Don't send data back to the store
+      saveUninitialized: true,
+      secret: process.env.SESSION_SECRET,
+      cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 7 * 2,
+        sameSite: true,
+        secure: false
+      },
+      store: new MongoStore({ mongooseConnection: db })
+    }))
+
+    // Make files public
     .use('/public', express.static('public'))
-
-
+    .use(function(req, res, next) {
+      app.locals.expreq = req;
+      next();
+    })
     // See all the dogs
-    .use('/', home)
+    .use('/',
+      (req, res, next) => dogVariables(dogs, req, res, next),
+      home
+    )
 
-    // fix this!!!!!!!!!!!!
-    // Create a profile
+    // Show all matches & chats
+    .use('/matches',
+      (req, res, next) => dogVariables(dogs, req, res, next),
+      matches
+    );
 
-    .use('/matches', (req, res, next) => dogVariables(dogs, req, res, next), matches);
-
-    io.sockets.on('connection', socket => {
-      socket.username = "Anon";
-
-      socket.on('match-room', data => {
-        socket.join(data.email);
-      });
-
-      socket.on('dog-message', message => {
-        socket.broadcast.emit('message', message);
-      });
-      socket.on('typing', data => {
-        socket.broadcast.emit('typing', {username: socket.username})
-      });
-
-      socket.on('chat-index', index => {
-        chatIndex = index;
-        console.log("chatindex in app.js = ", chatIndex);
-      });
-
-
-    });
+    initializeSocketIO();
 
     // Listen on http://localhost:4000
     server.listen(port, () => console.log('Running on Port', port));
@@ -92,10 +123,10 @@ async function runMongo() {
 
   await mongoose.connect(dbUrl,  {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   });
 
-  const db = mongoose.connection;
+  db = mongoose.connection;
 
   db.on('connected', () => {
     console.log(db);

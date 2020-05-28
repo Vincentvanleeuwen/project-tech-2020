@@ -1,23 +1,28 @@
-function dogMatches(dogs) {
+function dogMatches(dogs, currentDog) {
 
-  let loggedInDog = dogs[0];
+  // Get the logged in dog object
+  let loggedInDog = dogs.filter( dog => {
+    if (dog.email === currentDog.email) {
+      return dog;
+    }
+  });
 
-  // Check if a dog is a match
+  // Check if logged in dog has matches, return those dogs
   return dogs.filter( dog => {
-      if (loggedInDog.matches.includes(dog.email)) {
+      if (loggedInDog[0].matches.includes(dog.email)) {
         return dog;
       } else {
-        console.log("Could not find any matches.");
+        console.log(`${loggedInDog[0].email} does not match with ${dog.email}.`);
       }
   });
 
 }
 
 
-function selectedConversation(dogs) {
+function selectedConversation(dogs, currentDog) {
 
   // Get first dog in array to open instantly.
-  return dogMatches(dogs)[0].images;
+  return dogMatches(dogs, currentDog);
 
   // More soon...
   // let index = Array.from(document.getElementsByClassName('single-matches')).indexOf('.active-chat');

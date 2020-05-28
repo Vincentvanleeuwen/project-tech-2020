@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
   res.render('home', {
     title: 'Match a dog!',
     style: 'match.css',
-    match: req.requestMatches
+    match: req.matches
   });
 });
 
