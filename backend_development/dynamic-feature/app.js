@@ -30,42 +30,56 @@ let db;
 let chatIndex = 0;
 
 function dogVariables(dogs, req, res, next) {
-  req.session.user = {email: "bobby@gmail.com"};
+
+  req.session.user = {email: 'bobby@gmail.com'};
   req.matches = dogMatches(dogs, req.session.user);
   req.thisDogObject = getDogFromEmail(dogs, req.session.user);
   // req.selected = selectedConversation(dogs, req.session.user, chatIndex);
 
-  next()
+  next();
+
 }
 
 function initializeSocketIO(dogs, req, res, next) {
-  // req.session.selected = selectedConversation(dogs, req.session.user, chatIndex);
+
+  req.session.selected = selectedConversation(dogs, req.session.user, chatIndex);
 
   // Initialize Socket.io
   io.sockets.on('connection', socket => {
+
     socket.username = req.session.user;
 
 
     socket.on('match-room', data => {
+
       socket.join(data.email);
+
     });
 
     socket.on('dog-message', message => {
+
       socket.broadcast.emit('message', message);
+
     });
+
     socket.on('typing', data => {
-      socket.broadcast.emit('typing', {username: socket.username})
+
+      socket.broadcast.emit('typing', {username: socket.username});
+      console.log(data);
+
     });
 
     socket.on('chat-index', index => {
 
       req.session.selected = selectedConversation(dogs, req.session.user, index);
-
       console.log('req select', req.session.selected);
+
     });
 
   });
+
   next();
+
 }
 
 runMongo()
@@ -125,16 +139,19 @@ async function runMongo() {
   const dbUrl = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@playdate-npesr.mongodb.net/playdatedatabase?retryWrites=true&w=majority`;
 
   await mongoose.connect(dbUrl,  {
+
     useNewUrlParser: true,
     useUnifiedTopology: true,
+
   });
 
   db = mongoose.connection;
 
   db.on('connected', () => {
-    console.log(db);
 
-    console.log(`Connected!`)
+    console.log(db);
+    console.log(`Connected!`);
+
   });
 
   db.on('error', err => console.log(`MongoDB connection error: ${err}`));
