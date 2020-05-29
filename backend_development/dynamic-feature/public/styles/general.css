@@ -49,7 +49,10 @@ ul li a {
   color: var(--dark-color);
   cursor: pointer;
 }
-
+input:focus {
+  border: white 1px!important;
+  color: white;
+}
 nav {
   z-index: 8!important;
 }

@@ -53,7 +53,7 @@ if(chatContainer) {
 if (chatButtons) {
 
   let currentlyActive = chatButtons[0];
-
+  socket.emit('chat-index', 0);
   currentlyActive.classList.add('active-chat');
 
   chatButtons.forEach(button => {
@@ -79,6 +79,10 @@ if (chatButtons) {
 
 }
 
+function getIndexOfChat(button) {
+  const chats = Array.prototype.slice.call(chatButtons);
+  return chats.indexOf(button);
+}
 
 
 //Create HTML element of a chatbubble.
@@ -113,8 +117,5 @@ function addNewMessage(message, receiver) {
   chatBulbContainer.scrollTop = chatBulbContainer.scrollHeight - chatBulbContainer.clientHeight;
 }
 
-function getIndexOfChat(button) {
-  const chats = Array.prototype.slice.call(chatButtons);
-  return chats.indexOf(button);
-}
+
 

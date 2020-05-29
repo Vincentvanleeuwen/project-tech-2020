@@ -11,7 +11,8 @@ const MongoStore = require('connect-mongo')(session);
 // Require Utilities
 const {
   selectedConversation,
-  dogMatches
+  dogMatches,
+  getDogFromEmail
 } = require('./public/utils/matching');
 
 
@@ -26,20 +27,23 @@ let matches = require('./routes/matches');
 
 // let hardCodedUser = "bobby@gmail.com";
 let db;
+let chatIndex = 0;
 
 function dogVariables(dogs, req, res, next) {
-
   req.session.user = {email: "bobby@gmail.com"};
+  req.matches = dogMatches(dogs, req.session.user);
+  req.thisDogObject = getDogFromEmail(dogs, req.session.user);
+  // req.selected = selectedConversation(dogs, req.session.user, chatIndex);
 
-  req.matches = dogMatches(dogs, req.session.user); // TypeError: Cannot set property 'matches' of undefined
-  req.selected = selectedConversation(dogs, req.session.user);
   next()
 }
 
-function initializeSocketIO(req, res, next) {
+function initializeSocketIO(dogs, req, res, next) {
+  // req.session.selected = selectedConversation(dogs, req.session.user, chatIndex);
+
   // Initialize Socket.io
   io.sockets.on('connection', socket => {
-    socket.username = 'anon';
+    socket.username = req.session.user;
 
 
     socket.on('match-room', data => {
@@ -54,12 +58,14 @@ function initializeSocketIO(req, res, next) {
     });
 
     socket.on('chat-index', index => {
-      chatIndex = index;
-      console.log("chatindex in app.js = ", chatIndex);
 
+      req.session.selected = selectedConversation(dogs, req.session.user, index);
+
+      console.log('req select', req.session.selected);
     });
 
   });
+  next();
 }
 
 runMongo()
@@ -90,10 +96,7 @@ runMongo()
 
     // Make files public
     .use('/public', express.static('public'))
-    .use(function(req, res, next) {
-      app.locals.expreq = req;
-      next();
-    })
+
     // See all the dogs
     .use('/',
       (req, res, next) => dogVariables(dogs, req, res, next),
@@ -102,11 +105,11 @@ runMongo()
 
     // Show all matches & chats
     .use('/matches',
+      (req, res, next) => initializeSocketIO(dogs, req, res, next),
       (req, res, next) => dogVariables(dogs, req, res, next),
       matches
     );
 
-    initializeSocketIO();
 
     // Listen on http://localhost:4000
     server.listen(port, () => console.log('Running on Port', port));

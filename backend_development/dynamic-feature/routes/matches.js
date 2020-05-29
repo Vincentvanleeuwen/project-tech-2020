@@ -2,13 +2,13 @@ const router = require('express').Router();
 
 // Show your matches on http://localhost:4000/matches
 router.get('/', (req, res) => {
-  console.log('current user = ', req.session);
+
+  console.log('selected user ', req.session.selected);
   res.render('matches', {
     title: 'Your Matches',
     style: 'matches.css',
     match: req.matches,
-    selected: req.selected,
-    index: req.chatIndex,
+    selected: req.session.selected,
     user: req.session.user
   });
 });

@@ -4,9 +4,9 @@ const router = require('express').Router();
 router.get('/', (req, res) => {
 
   res.render('home', {
-    title: 'Match a dog!',
+    title: 'Login as',
     style: 'match.css',
-    match: req.matches
+    dog: req.thisDogObject
   });
 });
 
