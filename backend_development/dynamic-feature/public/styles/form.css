@@ -1,0 +1,38 @@
+.sign-up {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 10;
+}
+
+.sign-up fieldset {
+  margin-right: 2em;
+  box-shadow: #d0d0d0 0 3px 8px 0;
+  background: var(--light-color);
+  border: none;
+  border-radius: 20px;
+}
+.sign-up label {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em;
+}
+
+.sign-up label input, .sign-up label textarea {
+  margin-top: 1em;
+  background: #e1e7ea;
+  border: none;
+  padding: 0 1em;
+  border-radius: 5px;
+  min-height: 2em;
+  color: var(--dark-color);
+}
+.sign-up label input:focus, .sign-up label textarea:focus {
+  border: var(--primary-color) 5px!important;
+  outline: none;
+}
+.sign-up label input[type='submit'] {
+  background-color: var(--call-to-action);
+  color: white;
+}

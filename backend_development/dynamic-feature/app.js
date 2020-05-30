@@ -1,200 +1,157 @@
 // Get Express
 const express = require('express');
-const parser = require("body-parser");
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser')
 const handlebars = require('express-handlebars');
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
-const mongoose = require('mongoose');
-const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
+const mongoServer = require('./config/mongo');
+const parseTokenCookie = require('./config/auth').parseTokenCookie;
+
+// const session = require('express-session');
+// const MongoStore = require('connect-mongo')(session);
 
 // Require Utilities
-const {
-  selectedConversation,
-  dogMatches,
-  getDogFromEmail
-} = require('./public/utils/matching');
+// const {
+//   selectedConversation,
+//   dogMatches,
+//   getDogFromEmail
+// } = require('./public/utils/matching');
 
 
 require('dotenv').config();
 
 const port = 4000 || process.env.PORT;
 
+const corsOptions = {
+  origin: 'http://localhost:4000'
+};
+
+
 // Require the routes
 let home = require('./routes/home');
 let matches = require('./routes/matches');
 
+mongoServer();
 
-// let hardCodedUser = "bobby@gmail.com";
-let db;
-// let chatIndex = 0;
+// // let hardCodedUser = "bobby@gmail.com";
+// let db;
+// // let chatIndex = 0;
+//
+// function dogVariables(dogs, req, res, next) {
+//
+//   req.session.user = {email: 'bobby@gmail.com'};
+//   req.matches = dogMatches(dogs, req.session.user);
+//   req.thisDogObject = getDogFromEmail(dogs, req.session.user);
+//   // req.selected = selectedConversation(dogs, req.session.user, chatIndex);
+//
+//   next();
+//
+// }
+//
+// function initializeSocketIO(dogs, req, res, next) {
+//
+//   // req.session.selected = selectedConversation(dogs, req.session.user, chatIndex);
+//
+//   // Initialize Socket.io
+//   io.sockets.on('connection', socket => {
+//
+//     socket.username = req.session.user;
+//
+//
+//     socket.on('match-room', data => {
+//
+//       socket.join(data.email);
+//
+//     });
+//
+//     socket.on('dog-message', message => {
+//
+//       socket.broadcast.emit('message', message);
+//
+//     });
+//
+//     socket.on('typing', data => {
+//
+//       socket.broadcast.emit('typing', {username: socket.username});
+//       console.log(data);
+//
+//     });
+//
+//     socket.on('chat-index', index => {
+//
+//       req.session.selected = selectedConversation(dogs, req.session.user, index);
+//
+//       console.log('req select', req.session.selected);
+//
+//     });
+//
+//   });
+//
+//   next();
+//
+// }
 
-function dogVariables(dogs, req, res, next) {
+app.engine('hbs', handlebars({
+  extname: 'hbs',
+  defaultLayout: 'main',
+  layoutsDir: __dirname + '/views/layouts',
+  partialsDir: __dirname + '/views/partials'
+}))
+.set('view engine', 'hbs')
 
-  req.session.user = {email: 'bobby@gmail.com'};
-  req.matches = dogMatches(dogs, req.session.user);
-  req.thisDogObject = getDogFromEmail(dogs, req.session.user);
-  // req.selected = selectedConversation(dogs, req.session.user, chatIndex);
+.use(bodyParser.json())
+.use(bodyParser.urlencoded({ extended: true }))
+.use(cookieParser())
+.use(parseTokenCookie())
+// // Initialize a session
+// .use(session({
+//   name: 'sid', // Session ID
+//   resave: false, // Don't send data back to the store
+//   saveUninitialized: true,
+//   secret: process.env.SESSION_SECRET,
+//   cookie: {
+//     maxAge: 1000 * 60 * 60 * 24 * 7 * 2,
+//     sameSite: true,
+//     secure: false
+//   },
+//   store: new MongoStore({ mongooseConnection: db })
+// }))
 
-  next();
-
-}
-
-function initializeSocketIO(dogs, req, res, next) {
-
-  // req.session.selected = selectedConversation(dogs, req.session.user, chatIndex);
-
-  // Initialize Socket.io
-  io.sockets.on('connection', socket => {
-
-    socket.username = req.session.user;
+// Make files public
+.use('/public', express.static('public'))
 
 
-    socket.on('match-room', data => {
+// See all the dogs
+.use('/',
+  // (req, res, next) => dogVariables(dogs, req, res, next),
+  home
+);
 
-      socket.join(data.email);
+// Show all matches & chats
+// .use('/matches',
+//   (req, res, next) => initializeSocketIO(dogs, req, res, next),
+//   (req, res, next) => dogVariables(dogs, req, res, next),
+//   matches
+// );
 
-    });
-
-    socket.on('dog-message', message => {
-
-      socket.broadcast.emit('message', message);
-
-    });
-
-    socket.on('typing', data => {
-
-      socket.broadcast.emit('typing', {username: socket.username});
-      console.log(data);
-
-    });
-
-    socket.on('chat-index', index => {
-
-      req.session.selected = selectedConversation(dogs, req.session.user, index);
-
-      console.log('req select', req.session.selected);
-
-    });
-
-  });
-
-  next();
-
-}
-
-runMongo()
-  .then(dogs => {
-
-    // Assign handlebars as the view engine
-    app.engine('hbs', handlebars({
-      extname: 'hbs',
-      defaultLayout: 'main',
-      layoutsDir: __dirname + '/views/layouts',
-      partialsDir: __dirname + '/views/partials'
-    }))
-    .set('view engine', 'hbs')
-
-    // Initialize a session
-    .use(session({
-      name: 'sid', // Session ID
-      resave: false, // Don't send data back to the store
-      saveUninitialized: true,
-      secret: process.env.SESSION_SECRET,
-      cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 7 * 2,
-        sameSite: true,
-        secure: false
-      },
-      store: new MongoStore({ mongooseConnection: db })
-    }))
-
-    // Make files public
-    .use('/public', express.static('public'))
-
-    // See all the dogs
-    .use('/',
-      (req, res, next) => dogVariables(dogs, req, res, next),
-      home
-    )
-
-    // Show all matches & chats
-    .use('/matches',
-      (req, res, next) => initializeSocketIO(dogs, req, res, next),
-      (req, res, next) => dogVariables(dogs, req, res, next),
-      matches
-    );
-
+// runMongo()
+//   .then(dogs => {
+//
+//     // Assign handlebars as the view engine
+//
+//
 
     // Listen on http://localhost:4000
     server.listen(port, () => console.log('Running on Port', port));
-
-
-  })
-  .catch(error => console.log(error.stack));
-
-
-
-async function runMongo() {
-
-  const dbUrl = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@playdate-npesr.mongodb.net/playdatedatabase?retryWrites=true&w=majority`;
-
-  await mongoose.connect(dbUrl,  {
-
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-
-  });
-
-  db = mongoose.connection;
-
-  db.on('connected', () => {
-
-    console.log(db);
-    console.log(`Connected!`);
-
-  });
-
-  db.on('error', err => console.log(`MongoDB connection error: ${err}`));
-
-  const Schema = mongoose.Schema;
-
-  const dogSchema = new Schema({
-    email: String,
-    name: String,
-    images: Array,
-    status: String,
-    lastMessage: String,
-    description: String,
-    breed: String,
-    favToy: String,
-    age: String,
-    personality: String,
-    matches: Array
-  }, {collection: 'dogs'});
 //
-  const dog = mongoose.model('dogModel', dogSchema);
+//
+//   })
+//   .catch(error => console.log(error.stack));
+//
+//
 
-  // await dog.create({
-  //   email: 'testdog@dog.com',
-  //   name: 'testie',
-  //   images: ['test.jpg'],
-  //   status: 'Test status',
-  //   lastMessage: 'Example test',
-  //   description: 'Test Example',
-  //   breed: 'TestBreed',
-  //   favToy: 'Testtoy',
-  //   age: '7',
-  //   personality: 'cool',
-  //   matches: ['bobby@gmail.com']
-  // });
-
-
-
-  return await dog.find().lean();
-
-}
 
 
 
