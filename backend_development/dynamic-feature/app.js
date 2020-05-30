@@ -1,5 +1,6 @@
 // Get Express
 const express = require('express');
+const parser = require("body-parser");
 const handlebars = require('express-handlebars');
 const app = express();
 const server = require('http').createServer(app);
@@ -27,7 +28,7 @@ let matches = require('./routes/matches');
 
 // let hardCodedUser = "bobby@gmail.com";
 let db;
-let chatIndex = 0;
+// let chatIndex = 0;
 
 function dogVariables(dogs, req, res, next) {
 
@@ -42,7 +43,7 @@ function dogVariables(dogs, req, res, next) {
 
 function initializeSocketIO(dogs, req, res, next) {
 
-  req.session.selected = selectedConversation(dogs, req.session.user, chatIndex);
+  // req.session.selected = selectedConversation(dogs, req.session.user, chatIndex);
 
   // Initialize Socket.io
   io.sockets.on('connection', socket => {
@@ -72,6 +73,7 @@ function initializeSocketIO(dogs, req, res, next) {
     socket.on('chat-index', index => {
 
       req.session.selected = selectedConversation(dogs, req.session.user, index);
+
       console.log('req select', req.session.selected);
 
     });

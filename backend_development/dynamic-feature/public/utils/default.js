@@ -101,6 +101,17 @@ if (chatButtons) {
 
       socket.emit('match-room', {email: 'bobby@gmail.com'});
 
+      document.post('/matches',
+        {
+          id: 'xyz'
+        },
+        function(context){ //the result of the res.render
+
+          //update the view
+          document.getElementsByTagName('body')[0].html(context);
+
+        });
+
     });
 
   });
@@ -152,5 +163,14 @@ function addNewMessage(message, receiver) {
 
 }
 
+function logDogIn(dog) {
 
+  // Get the "login" buttons.
+  // When First button is clicked => next dog in template
+  // When second button is clicked => Log dog into this.dog
 
+  console.log(dog);
+
+}
+
+logDogIn();
