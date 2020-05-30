@@ -1,6 +1,8 @@
+"use strict";
+
 // Get Express
 const express = require('express');
-const parser = require("body-parser");
+const bodyParser = require("body-parser");
 const handlebars = require('express-handlebars');
 const app = express();
 const server = require('http').createServer(app);
@@ -113,6 +115,12 @@ runMongo()
     // Make files public
     .use('/public', express.static('public'))
 
+    // Supports parsing of Json
+    .use(bodyParser.json())
+
+    // Supports parsing of x-www-form-urlencoded
+    .use(bodyParser.urlencoded({ extended: true }))
+
     // See all the dogs
     .use('/',
       (req, res, next) => dogVariables(dogs, req, res, next),
@@ -177,9 +185,9 @@ async function runMongo() {
   const dog = mongoose.model('dogModel', dogSchema);
 
   // await dog.create({
-  //   email: 'testdog@dog.com',
+  //   email: 'bobby@gmail.com',
   //   name: 'testie',
-  //   images: ['test.jpg'],
+  //   images: ['bobby-pup2.jpg'],
   //   status: 'Test status',
   //   lastMessage: 'Example test',
   //   description: 'Test Example',
@@ -187,9 +195,9 @@ async function runMongo() {
   //   favToy: 'Testtoy',
   //   age: '7',
   //   personality: 'cool',
-  //   matches: ['bobby@gmail.com']
+  //   matches: ['testdog@dog.com']
   // });
-
+  //
 
 
   return await dog.find().lean();

@@ -23,6 +23,8 @@ socket.on('message', message => {
   }
 
 });
+
+// Listen for keypress to show the typing message.
 if (chatInput) {
 
   chatInput.addEventListener('keypress', () => {
@@ -33,7 +35,7 @@ if (chatInput) {
 
 }
 
-
+// When user is typing, show the other user that he is typing.
 socket.on('typing', data => {
 
   const isTyping = document.createElement('p');
