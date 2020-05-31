@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
 
     title: 'Login as',
     style: 'match.css',
-    dog: req.thisDogObject
+    dog: req.session.allDogs
 
   });
 

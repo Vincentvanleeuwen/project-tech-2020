@@ -10,6 +10,8 @@ const io = require('socket.io')(server);
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
+const sharedSessions = require('express-socket.io-session');
+const cookieParser = require('cookie-parser');
 
 // Require Utilities
 const {
@@ -30,13 +32,13 @@ let matches = require('./routes/matches');
 
 // let hardCodedUser = "bobby@gmail.com";
 let db;
-// let chatIndex = 0;
+let chatIndex = 0;
 
 function dogVariables(dogs, req, res, next) {
 
   req.session.user = {email: 'bobby@gmail.com'};
-  req.matches = dogMatches(dogs, req.session.user);
-  req.thisDogObject = getDogFromEmail(dogs, req.session.user);
+  req.session.matches = dogMatches(dogs, req.session.user);
+  req.session.allDogs = dogs;
   // req.selected = selectedConversation(dogs, req.session.user, chatIndex);
 
   next();
@@ -60,61 +62,7 @@ function blockUser(dogs, data, selfMatches) {
   })
 
 }
-function initializeSocketIO(dogs, req, res, next) {
 
-  // req.session.selected = selectedConversation(dogs, req.session.user, chatIndex);
-
-
-  // Initialize Socket.io
-  io.sockets.on('connection', socket => {
-
-    socket.username = req.session.user;
-    console.log('username: ', req.session);
-
-    socket.on('match-room', data => {
-
-      socket.join(data.email);
-
-    });
-
-    // When a dog submits a message
-    socket.on('dog-message', message => {
-
-      socket.broadcast.emit('message', message);
-
-    });
-
-    // When a dog is typing, show it to the other dog.
-    socket.on('typing', data => {
-
-      socket.broadcast.emit('typing', {username: socket.username});
-      console.log(data);
-
-    });
-
-    // When user clicks on block this dog, block the dog
-    socket.on('block-user', data => {
-
-      let currentDog = getDogFromEmail(dogs, socket.username);
-      console.log('blocked user = ', blockUser(dogs, data, currentDog[0].matches));
-      socket.broadcast.emit('block-user', {block: blockUser(dogs, data, currentDog[0].matches)});
-
-    });
-
-    // When a chat is opened, change req.session.selected to new dog
-    socket.on('chat-index', index => {
-
-      req.session.selected = selectedConversation(dogs, req.session.user, index);
-
-      console.log('req select', req.session.selected);
-
-    });
-
-  });
-
-  next();
-
-}
 
 runMongo()
   .then(dogs => {
@@ -128,6 +76,7 @@ runMongo()
     }))
     .set('view engine', 'hbs')
 
+    .use(cookieParser(process.env.SESSION_SECRET))
     // Initialize a session
     .use(session({
       name: 'sid', // Session ID
@@ -137,7 +86,8 @@ runMongo()
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7 * 2,
         sameSite: true,
-        secure: false
+        secure: false,
+        creationDate: Date.now()
       },
       store: new MongoStore({ mongooseConnection: db })
     }))
@@ -151,6 +101,8 @@ runMongo()
     // Supports parsing of x-www-form-urlencoded
     .use(bodyParser.urlencoded({ extended: true }))
 
+    .use((req, res, next) => initializeSocketIO(dogs, req, res, next))
+
     // See all the dogs
     .use('/',
       (req, res, next) => dogVariables(dogs, req, res, next),
@@ -159,7 +111,6 @@ runMongo()
 
     // Show all matches & chats
     .use('/matches',
-      (req, res, next) => initializeSocketIO(dogs, req, res, next),
       (req, res, next) => dogVariables(dogs, req, res, next),
       matches
     );
@@ -215,9 +166,9 @@ async function runMongo() {
   const dog = mongoose.model('dogModel', dogSchema);
 
   // await dog.create({
-  //   email: 'bobby@gmail.com',
-  //   name: 'testie',
-  //   images: ['bobby-pup2.jpg'],
+  //   email: 'bongie@dog.com',
+  //   name: 'Bongie',
+  //   images: ['bobby-old2.jpg'],
   //   status: 'Test status',
   //   lastMessage: 'Example test',
   //   description: 'Test Example',
@@ -225,7 +176,33 @@ async function runMongo() {
   //   favToy: 'Testtoy',
   //   age: '7',
   //   personality: 'cool',
-  //   matches: ['testdog@dog.com']
+  //   matches: ['bungie@dog.com', 'bango@dog.com']
+  // });
+  // await dog.create({
+  //   email: 'bungie@dog.com',
+  //   name: 'Bungie',
+  //   images: ['bobby-old2.jpg'],
+  //   status: 'Test status',
+  //   lastMessage: 'Example test',
+  //   description: 'Test Example',
+  //   breed: 'TestBreed',
+  //   favToy: 'Testtoy',
+  //   age: '7',
+  //   personality: 'cool',
+  //   matches: ['bongie@dog.com', 'bango@dog.com']
+  // });
+  // await dog.create({
+  //   email: 'bango@dog.com',
+  //   name: 'Bango',
+  //   images: ['bobby-old2.jpg'],
+  //   status: 'Test status',
+  //   lastMessage: 'Example test',
+  //   description: 'Test Example',
+  //   breed: 'TestBreed',
+  //   favToy: 'Testtoy',
+  //   age: '7',
+  //   personality: 'cool',
+  //   matches: ['bungie@dog.com', 'bongie@dog.com']
   // });
   //
 
@@ -254,5 +231,87 @@ async function runMongo() {
 
 
 
+function initializeSocketIO(dogs, req, res, next) {
 
+  req.session.selected = selectedConversation(dogs, req.session.user, chatIndex);
+
+  io.use(sharedSessions(session({
+    name: 'sid', // Session ID
+    resave: false, // Don't send data back to the store
+    saveUninitialized: true,
+    secret: process.env.SESSION_SECRET,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7 * 2,
+      sameSite: true,
+      secure: false
+    },
+    store: new MongoStore({ mongooseConnection: db })
+  })));
+
+  // Initialize Socket.io
+  io.sockets.on('connection', socket => {
+    
+    console.log("session", socket.request.session);
+    socket.on('login', (dogData) =>{
+      socket.handshake.session.dogdata = dogData;
+      socket.handshake.session.save();
+
+    });
+
+    socket.on('logout', (dogData) =>{
+      if(socket.handshake.session.dogdata) {
+        delete socket.handshake.session.dogdata;
+        socket.handshake.session.save();
+      }
+    });
+
+    // console.log('socket=', socket);
+    socket.username = req.session.user;
+
+    console.log('username: ', req.session);
+
+    socket.on('match-room', data => {
+
+      socket.join(data.email);
+
+    });
+
+    // When a dog submits a message
+    socket.on('dog-message', message => {
+
+      socket.broadcast.emit('message', message);
+
+    });
+
+    // When a dog is typing, show it to the other dog.
+    socket.on('typing', data => {
+
+      socket.broadcast.emit('typing', {username: socket.username});
+      console.log(data);
+
+    });
+
+    // When user clicks on block this dog, block the dog
+    socket.on('block-user', data => {
+
+      let currentDog = getDogFromEmail(dogs, socket.username);
+      console.log('blocked user = ', blockUser(dogs, data, currentDog[0].matches));
+      socket.broadcast.emit('block-user', {block: blockUser(dogs, data, currentDog[0].matches)});
+
+    });
+
+    // When a chat is opened, change req.session.selected to new dog
+    socket.on('chat-index', index => {
+
+      req.session.selected = selectedConversation(dogs, req.session.user, index);
+
+      console.log('req select', req.session.selected);
+
+    });
+
+  });
+
+  next();
+
+}
 

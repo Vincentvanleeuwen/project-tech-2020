@@ -16,21 +16,24 @@ console.log("Show dogsettingbutton = ", dogSettingButton[0]);
 
 
 // Toggles the dog chat info menu
-dogSettingButton[0].addEventListener('click', (e) => {
+if(dogSettingButton[0]) {
+  dogSettingButton[0].addEventListener('click', (e) => {
 
-  dogSettingMenu.classList.toggle('show-menu');
+    dogSettingMenu.classList.toggle('show-menu');
 
-  if(!dogSettingMenu.classList.contains('show-menu')) {
-    dogSettingMenu.classList.toggle('hide-menu');
-    setTimeout(() => {
+    if(!dogSettingMenu.classList.contains('show-menu')) {
       dogSettingMenu.classList.toggle('hide-menu');
-    }, 400);
+      setTimeout(() => {
+        dogSettingMenu.classList.toggle('hide-menu');
+      }, 400);
 
-  }
+    }
 
-  socket.emit('block-user', 'testdog@dog.com');
+    socket.emit('block-user', 'testdog@dog.com');
 
-});
+  });
+}
+
 
 socket.on('block-user', data => {
   console.log(data);
@@ -46,6 +49,7 @@ socket.on('message', message => {
 
     addNewMessage(message);
     document.querySelector('.is-typing').remove();
+    socket.emit('message', message);
 
   }
 
@@ -104,7 +108,7 @@ if(chatContainer) {
 
 }
 
-if (chatButtons) {
+if (chatButtons.length !== 0) {
 
   let currentlyActive = chatButtons[0];
 

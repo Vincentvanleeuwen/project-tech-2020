@@ -267,11 +267,8 @@
     padding-left: 75px;
   }
 
-  .match-button {
-    /*margin-bottom: 0;*/
-  }
   .match-button:hover:last-child, .match-button:hover:first-child {
-    margin-bottom: 5px;
+
     transform: scale(1.1);
     transition: 1s;
     cursor:pointer;
