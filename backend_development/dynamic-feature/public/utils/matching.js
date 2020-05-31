@@ -6,7 +6,7 @@ function dogMatches(dogs, currentDog) {
   // Check if logged in dog has matches, return those dogs
   return dogs.filter( dog => {
 
-    console.log('dog =', dog);
+
       if (loggedInDog[0].matches.includes(dog.email)) {
 
         return dog;

@@ -43,15 +43,33 @@ function dogVariables(dogs, req, res, next) {
 
 }
 
+function blockUser(dogs, data, selfMatches) {
+
+  let filterMatches = dogs.filter(dog => {
+    console.log(selfMatches);
+     selfMatches.contains(dog.email);
+
+     return dog;
+
+  });
+
+  return filterMatches.filter(block => {
+    if (block === data) {
+      return block;
+    }
+  })
+
+}
 function initializeSocketIO(dogs, req, res, next) {
 
   // req.session.selected = selectedConversation(dogs, req.session.user, chatIndex);
+
 
   // Initialize Socket.io
   io.sockets.on('connection', socket => {
 
     socket.username = req.session.user;
-
+    console.log('username: ', req.session);
 
     socket.on('match-room', data => {
 
@@ -70,6 +88,11 @@ function initializeSocketIO(dogs, req, res, next) {
       socket.broadcast.emit('typing', {username: socket.username});
       console.log(data);
 
+    });
+
+    socket.on('block-user', data => {
+      console.log("block-user data =", blockUser(dogs, data, socket.username.matches));
+      socket.broadcast.emit('block-user', {block: blockUser(dogs, data, socket.username.matches)});
     });
 
     socket.on('chat-index', index => {

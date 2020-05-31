@@ -16,10 +16,22 @@
 
 
   <section class="chat-container">
+
+    <form class="dropdown-menu">
+      <label for="dog-match" style="display:none">
+        <input type="text" value="{{selected.email}}" name="dog-match">
+      </label>
+      <input type="submit" value="Block this dog" name="{{ blockDog }}">
+    </form>
+
     <section class="dog-image">
+
       <img src="../public/media/images/dog-settings.svg"
            alt="chat settings"
            class="dog-settings"/>
+
+
+
       {{#with selected }}
 
         <img src="../public/media/images/bobby/{{ images.[0] }}"
@@ -38,12 +50,17 @@
     </div>
 
     <form class="chat-input" autocomplete="off">
+
       <label for="message">
+
         <input name="message" type="text" placeholder="Send a message..." id="chat-input"/>
+
       </label>
 
       <button type="submit" id="send-message"></button>
+
     </form>
+
   </section>
 
 

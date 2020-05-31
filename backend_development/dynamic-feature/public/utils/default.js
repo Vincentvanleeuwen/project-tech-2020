@@ -9,6 +9,33 @@ const chatInput = document.getElementById('chat-input');
 const chatBulbContainer = document.querySelector('.chat-bulbs');
 const chatButtons = document.querySelectorAll('.single-match');
 
+const dogSettingMenu = document.querySelector('.dropdown-menu');
+const dogSettingButton = document.getElementsByClassName('dog-settings');
+
+console.log("Show dogsettingbutton = ", dogSettingButton[0]);
+
+
+// Toggles the dog chat info menu
+dogSettingButton[0].addEventListener('click', (e) => {
+
+  dogSettingMenu.classList.toggle('show-menu');
+
+  if(!dogSettingMenu.classList.contains('show-menu')) {
+    dogSettingMenu.classList.toggle('hide-menu');
+    setTimeout(() => {
+      dogSettingMenu.classList.toggle('hide-menu');
+    }, 400);
+
+  }
+
+  socket.emit('block-user', );
+
+});
+
+socket.on('block-user', data => {
+  console.log(data);
+});
+
 socket.on('message', message => {
 
   if (message.length === 0) {
@@ -51,6 +78,7 @@ socket.on('typing', data => {
 
 });
 
+
 if(chatContainer) {
 
   chatContainer.addEventListener('submit', e => {
@@ -80,6 +108,7 @@ if (chatButtons) {
 
   let currentlyActive = chatButtons[0];
 
+  // Set chat index to 0
   socket.emit('chat-index', 0);
 
   currentlyActive.classList.add('active-chat');
@@ -98,21 +127,9 @@ if (chatButtons) {
       // Set clicked element to current active element.
       currentlyActive = button;
 
-
       socket.emit('chat-index', getIndexOfChat(button));
 
       socket.emit('match-room', {email: 'bobby@gmail.com'});
-
-      document.post('/matches',
-        {
-          id: 'xyz'
-        },
-        function(context){ //the result of the res.render
-
-          //update the view
-          document.getElementsByTagName('body')[0].html(context);
-
-        });
 
     });
 
