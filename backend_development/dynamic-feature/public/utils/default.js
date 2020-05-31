@@ -28,7 +28,7 @@ dogSettingButton[0].addEventListener('click', (e) => {
 
   }
 
-  socket.emit('block-user', );
+  socket.emit('block-user', 'testdog@dog.com');
 
 });
 

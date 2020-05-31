@@ -1,3 +1,5 @@
+
+// Get all the current dog's matches and put them in an array.
 function dogMatches(dogs, currentDog) {
 
   // Get the logged in dog object
@@ -20,6 +22,8 @@ function dogMatches(dogs, currentDog) {
   });
 
 }
+
+// Compare current dog's email with a dog that's in the database and return this dog.
 function getDogFromEmail(dogs, currentDog) {
 
   return dogs.filter( dog => {
@@ -34,16 +38,17 @@ function getDogFromEmail(dogs, currentDog) {
 
 }
 
+// Get the selected chat dog object
 function selectedConversation(dogs, currentDog, index) {
 
   console.log('index =',index);
-  // console.log("dogobject =",dogMatches(dogs, currentDog)[index]);
 
   // Get first dog in array to open instantly.
   return dogMatches(dogs, currentDog)[index];
 
 }
 
+// Export these functions
 module.exports = {
   selectedConversation,
   dogMatches,

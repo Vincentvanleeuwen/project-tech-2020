@@ -3,14 +3,14 @@
 
 <section class="matches-container">
 
-  {{#each match }}
+  {{# each match }}
     {{> matchesChat
       dogName = name
       dogImage = images.[0]
       chatStatus = status
       lastMessage = lastMessage
     }}
-  {{/each}}
+  {{/ each }}
 
 </section>
 
@@ -19,7 +19,7 @@
 
     <form class="dropdown-menu">
       <label for="dog-match" style="display:none">
-        <input type="text" value="{{selected.email}}" name="dog-match">
+        <input type="text" value="{{ selected.email }}" name="dog-match">
       </label>
       <input type="submit" value="Block this dog" name="{{ blockDog }}">
     </form>
@@ -32,13 +32,13 @@
 
 
 
-      {{#with selected }}
+      {{# with selected }}
 
         <img src="../public/media/images/bobby/{{ images.[0] }}"
              alt="Bobby"
              class="main-image"/>
 
-      {{/with}}
+      {{/ with }}
 
 
 
@@ -47,6 +47,10 @@
     <div class="chat-bulbs">
   {{!--  All the chat messages appear in this container--}}
   {{!--      See logic in public/utils/default.js--}}
+
+      {{# each message }}
+
+      {{/ each }}
     </div>
 
     <form class="chat-input" autocomplete="off">
@@ -64,4 +68,4 @@
   </section>
 
 
-{{/layouts/main}}
+{{/ layouts/main }}

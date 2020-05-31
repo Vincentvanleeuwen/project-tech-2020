@@ -47,7 +47,7 @@ function blockUser(dogs, data, selfMatches) {
 
   let filterMatches = dogs.filter(dog => {
     console.log(selfMatches);
-     selfMatches.contains(dog.email);
+     selfMatches.includes(dog.email);
 
      return dog;
 
@@ -77,12 +77,14 @@ function initializeSocketIO(dogs, req, res, next) {
 
     });
 
+    // When a dog submits a message
     socket.on('dog-message', message => {
 
       socket.broadcast.emit('message', message);
 
     });
 
+    // When a dog is typing, show it to the other dog.
     socket.on('typing', data => {
 
       socket.broadcast.emit('typing', {username: socket.username});
@@ -90,11 +92,16 @@ function initializeSocketIO(dogs, req, res, next) {
 
     });
 
+    // When user clicks on block this dog, block the dog
     socket.on('block-user', data => {
-      console.log("block-user data =", blockUser(dogs, data, socket.username.matches));
-      socket.broadcast.emit('block-user', {block: blockUser(dogs, data, socket.username.matches)});
+
+      let currentDog = getDogFromEmail(dogs, socket.username);
+      console.log('blocked user = ', blockUser(dogs, data, currentDog[0].matches));
+      socket.broadcast.emit('block-user', {block: blockUser(dogs, data, currentDog[0].matches)});
+
     });
 
+    // When a chat is opened, change req.session.selected to new dog
     socket.on('chat-index', index => {
 
       req.session.selected = selectedConversation(dogs, req.session.user, index);
