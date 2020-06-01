@@ -33,7 +33,7 @@ let matches = require('./routes/matches');
 
 // let hardCodedUser = "bobby@gmail.com";
 let db;
-let chatIndex = 0;
+
 
 function dogVariables(dogs, req, res, next) {
 
@@ -212,12 +212,12 @@ async function runMongo() {
 // });
 
 
-
+let chatIndex = 0;
 
 
 function initializeSocketIO(dogs, req, res, next) {
 
-  // req.session.selected = selectedConversation(dogs, req.session.user, chatIndex);
+  req.session.selected = selectedConversation(dogs, req.session.user, chatIndex);
 
   io.use(sharedSessions(session({
     name: 'sid', // Session ID
@@ -234,19 +234,24 @@ function initializeSocketIO(dogs, req, res, next) {
 
   // Initialize Socket.io
   io.sockets.on('connection', socket => {
+
     console.log("hello", socket.username);
     console.log("session", socket.request.session);
-    socket.on('login', (dogData) =>{
+
+    socket.on('login', (dogData) => {
+
       socket.handshake.session.dogdata = dogData;
       socket.handshake.session.save();
 
     });
 
-    socket.on('logout', (dogData) =>{
+    socket.on('logout', (dogData) => {
+
       if(socket.handshake.session.dogdata) {
         delete socket.handshake.session.dogdata;
         socket.handshake.session.save();
       }
+
     });
 
     // console.log('socket=', socket);
@@ -285,7 +290,8 @@ function initializeSocketIO(dogs, req, res, next) {
 
       socket.broadcast.emit('block-user', {block: newMatchList(dogs, data, currentDog[0].matches)});
 
-      Dog.update({email: socket.user.email}, {matches: newMatches})
+      Dog.update({email: socket.user.email}, {matches: newMatches});
+
     });
 
     // When a chat is opened, change req.session.selected to new dog
