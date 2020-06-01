@@ -10,14 +10,15 @@ const chatBulbContainer = document.querySelector('.chat-bulbs');
 const chatButtons = document.querySelectorAll('.single-match');
 
 const dogSettingMenu = document.querySelector('.dropdown-menu');
-const dogSettingButton = document.getElementsByClassName('dog-settings');
+const dogSettingButton = document.getElementsByClassName('dog-settings')[0];
+const blockButton = document.querySelector('.block')[0];
 
 console.log("Show dogsettingbutton = ", dogSettingButton[0]);
 
 
 // Toggles the dog chat info menu
-if(dogSettingButton[0]) {
-  dogSettingButton[0].addEventListener('click', (e) => {
+if(dogSettingButton) {
+  dogSettingButton.addEventListener('click', (e) => {
 
     dogSettingMenu.classList.toggle('show-menu');
 
@@ -29,15 +30,24 @@ if(dogSettingButton[0]) {
 
     }
 
-    socket.emit('block-user', 'testdog@dog.com');
+
+
 
   });
 }
 
+if(blockButton) {
+  blockButton.addEventListener('submit', () => {
+    e.preventDefault();
 
-socket.on('block-user', data => {
-  console.log(data);
-});
+    socket.emit('block-user', blockButton.name);
+  });
+
+  socket.on('block-user', data => {
+    console.log(data);
+  });
+}
+
 
 socket.on('message', message => {
 

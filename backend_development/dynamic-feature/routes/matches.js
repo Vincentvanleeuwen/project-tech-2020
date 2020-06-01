@@ -3,8 +3,8 @@ const router = require('express').Router();
 // Show your matches on http://localhost:4000/matches
 router.get('/', (req, res) => {
 
-  console.log('session /matches.js ', req.session);
-  console.log('selected user ', req.session.matches);
+  // console.log('session /matches.js ', req.session);
+  // console.log('selected user ', req.session.selected); UNDEFINED
 
   res.render('matches', {
 
@@ -25,7 +25,7 @@ router.post('/', (req, res) => {
 
     title: 'Your Matches',
     style: 'matches.css',
-    match: req.matches,
+    match: req.session.matches,
     selected: req.session.selected,
     user: req.session.user
 

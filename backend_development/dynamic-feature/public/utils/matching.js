@@ -1,4 +1,3 @@
-
 // Get all the current dog's matches and put them in an array.
 function dogMatches(dogs, currentDog) {
 
@@ -26,7 +25,7 @@ function dogMatches(dogs, currentDog) {
 
 // Compare current dog's email with a dog that's in the database and return this dog.
 function getDogFromEmail(dogs, currentDog) {
-
+  console.log('dogs= ', dogs);
   return dogs.filter( dog => {
 
     if (dog.email === currentDog.email) {
