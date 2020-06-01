@@ -22,7 +22,6 @@ function dogMatches(dogs, currentDog) {
 
 }
 
-
 // Compare current dog's email with a dog that's in the database and return this dog.
 function getDogFromEmail(dogs, currentDog) {
   console.log('dogs= ', dogs);

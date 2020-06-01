@@ -323,14 +323,14 @@
     opacity: 0;
   }
   100% {
-    right: -10em;
+    right: 8em;
     opacity: 1;
   }
 }
 
 @keyframes slide-back {
   0% {
-    right: -10em;
+    right: 8em;
     opacity: 1;
   }
   100% {

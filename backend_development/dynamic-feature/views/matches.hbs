@@ -1,28 +1,30 @@
 {{!--Extends the main layout--}}
 {{#> layouts/main }}
 
-<section class="matches-container">
+  <section class="matches-container">
 
-  {{# each match }}
-    {{> matchesChat
-      dogName = name
-      dogImage = images.[0]
-      chatStatus = status
-      lastMessage = lastMessage
-    }}
-  {{/ each }}
+    {{# each match }}
+      {{> matchesChat
+        dogName = name
+        dogImage = images.[0]
+        chatStatus = status
+        lastMessage = lastMessage
+      }}
+    {{/ each }}
 
-</section>
+  </section>
+
+  <form class="dropdown-menu">
+    <label for="dog-match" style="display:none">
+      <input type="text" value="{{ selected.email }}" name="dog-match" class="this-dog">
+    </label>
+    <input type="submit" value="Block this dog" class="block">
+  </form>
 
 
   <section class="chat-container">
 
-    <form class="dropdown-menu">
-      <label for="dog-match" style="display:none">
-        <input type="text" value="{{ selected.email }}" name="dog-match">
-      </label>
-      <input type="submit" value="Block this dog" name="{{ selected.email }}" class="block">
-    </form>
+
 
     <section class="dog-image">
 

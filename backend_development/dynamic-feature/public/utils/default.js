@@ -11,7 +11,8 @@ const chatButtons = document.querySelectorAll('.single-match');
 
 const dogSettingMenu = document.querySelector('.dropdown-menu');
 const dogSettingButton = document.getElementsByClassName('dog-settings')[0];
-const blockButton = document.querySelector('.block')[0];
+const blockButton = document.querySelector('.block');
+const thisDog = document.querySelector('.this-dog');
 
 console.log("Show dogsettingbutton = ", dogSettingButton[0]);
 
@@ -37,17 +38,24 @@ if(dogSettingButton) {
 }
 
 if(blockButton) {
-  blockButton.addEventListener('submit', () => {
-    e.preventDefault();
+  blockButton.addEventListener('click', () => {
 
-    socket.emit('block-user', blockButton.name);
+    console.log('blockeduserdata= ', thisDog.value);
+
+    socket.emit('block-user', thisDog.value);
+
   });
 
-  socket.on('block-user', data => {
-    console.log(data);
-  });
+
 }
 
+socket.on('block-user', data => {
+
+  console.log(data);
+
+  deleteDogFromChat(data);
+
+});
 
 socket.on('message', message => {
 
@@ -145,6 +153,8 @@ if (chatButtons.length !== 0) {
 
       socket.emit('match-room', {email: 'bobby@gmail.com'});
 
+
+
     });
 
   });
@@ -193,6 +203,12 @@ function addNewMessage(message, receiver) {
 
   // Scroll to bottom to always see newest chat message
   chatBulbContainer.scrollTop = chatBulbContainer.scrollHeight - chatBulbContainer.clientHeight;
+
+}
+
+function deleteDogFromChat(dog) {
+
+  console.log(dog);
 
 }
 

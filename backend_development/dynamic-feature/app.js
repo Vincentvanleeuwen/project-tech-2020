@@ -14,12 +14,7 @@ const sharedSessions = require('express-socket.io-session');
 const cookieParser = require('cookie-parser');
 const Dog = require('./data/dogModel');
 
-// Require Utilities
-const {
-  selectedConversation,
-  dogMatches,
-  getDogFromEmail
-} = require('./public/utils/matching');
+console.log(Dog);
 
 
 require('dotenv').config();
@@ -31,38 +26,20 @@ let home = require('./routes/home');
 let matches = require('./routes/matches');
 
 
-// let hardCodedUser = "bobby@gmail.com";
+let hardCodedUser = 'bobby@gmail.com';
 let db;
 
 
 function dogVariables(dogs, req, res, next) {
 
-  req.session.user = {email: 'bobby@gmail.com'};
-  req.session.matches = dogMatches(dogs, req.session.user);
+  req.session.user = {email: hardCodedUser};
+  req.session.matches = Dog.dogMatches(dogs, req.session.user);
   req.session.allDogs = dogs;
-  // req.selected = selectedConversation(dogs, req.session.user, chatIndex);
 
   next();
 
 }
 
-function newMatchList(dogs, data, selfMatches) {
-
-  let filterMatches = dogs.filter(dog => {
-    console.log(selfMatches);
-     selfMatches.includes(dog.email);
-
-     return dog;
-
-  });
-
-  return filterMatches.filter(block => {
-    if (block !== data) {
-      return block;
-    }
-  })
-
-}
 
 
 runMongo()
@@ -148,49 +125,6 @@ async function runMongo() {
 
   db.on('error', err => console.log(`MongoDB connection error: ${err}`));
 
-
-  // await Dog.create({
-  //   email: 'bongie@dog.com',
-  //   name: 'Bongie',
-  //   images: ['bobby-old2.jpg'],
-  //   status: 'Test status',
-  //   lastMessage: 'Example test',
-  //   description: 'Test Example',
-  //   breed: 'TestBreed',
-  //   favToy: 'Testtoy',
-  //   age: '7',
-  //   personality: 'cool',
-  //   matches: ['bungie@dog.com', 'bango@dog.com']
-  // });
-  // await Dog.create({
-  //   email: 'bungie@dog.com',
-  //   name: 'Bungie',
-  //   images: ['bobby-old2.jpg'],
-  //   status: 'Test status',
-  //   lastMessage: 'Example test',
-  //   description: 'Test Example',
-  //   breed: 'TestBreed',
-  //   favToy: 'Testtoy',
-  //   age: '7',
-  //   personality: 'cool',
-  //   matches: ['bongie@dog.com', 'bango@dog.com']
-  // });
-  // await Dog.create({
-  //   email: 'bango@dog.com',
-  //   name: 'Bango',
-  //   images: ['bobby-old2.jpg'],
-  //   status: 'Test status',
-  //   lastMessage: 'Example test',
-  //   description: 'Test Example',
-  //   breed: 'TestBreed',
-  //   favToy: 'Testtoy',
-  //   age: '7',
-  //   personality: 'cool',
-  //   matches: ['bungie@dog.com', 'bongie@dog.com']
-  // });
-  //
-
-
   return await Dog.find().lean();
 
 }
@@ -217,7 +151,7 @@ let chatIndex = 0;
 
 function initializeSocketIO(dogs, req, res, next) {
 
-  req.session.selected = selectedConversation(dogs, req.session.user, chatIndex);
+  // req.session.selected = Dog.selectedConversation(dogs, req.session.user, chatIndex);
 
   io.use(sharedSessions(session({
     name: 'sid', // Session ID
@@ -257,7 +191,7 @@ function initializeSocketIO(dogs, req, res, next) {
     // console.log('socket=', socket);
     socket.user = req.session.user;
 
-    console.log('username: ', req.session);
+    // console.log('username: ', req.session);
 
     socket.on('match-room', data => {
 
@@ -283,24 +217,25 @@ function initializeSocketIO(dogs, req, res, next) {
     // When user clicks on block this dog, block the dog
     socket.on('block-user', data => {
 
-      let currentDog = getDogFromEmail(dogs, socket.user);
-      console.log('blocked user = ', newMatchList(dogs, data, currentDog[0].matches));
+      let currentDog = Dog.getDogFromEmail(dogs, socket.user);
+      console.log('blocked user = ', data);
 
-      let newMatches = newMatchList(dogs, data, currentDog[0].matches).toArray();
+      let newMatches = Dog.blockMatch(dogs, data, currentDog[0].matches);
 
-      socket.broadcast.emit('block-user', {block: newMatchList(dogs, data, currentDog[0].matches)});
+      console.log('newMathces = ', newMatches);
 
-      Dog.update({email: socket.user.email}, {matches: newMatches});
+      socket.broadcast.emit('block-user', {matches: newMatches});
+
+      // Dog({email: socket.user.email}, {matches: newMatches});
 
     });
 
     // When a chat is opened, change req.session.selected to new dog
     socket.on('chat-index', index => {
 
-      req.session.selected = selectedConversation(dogs, req.session.user, index);
+        req.session.selected = Dog.selectedConversation(dogs, req.session.user, index);
+        console.log('req select', req.session.selected);
 
-
-      console.log('req select', req.session.selected);
 
     });
 
