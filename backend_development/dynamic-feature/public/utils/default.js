@@ -30,10 +30,6 @@ if(dogSettingButton) {
       }, 400);
 
     }
-
-
-
-
   });
 }
 
