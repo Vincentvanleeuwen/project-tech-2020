@@ -15,6 +15,7 @@ const cookieParser = require('cookie-parser');
 
 // Require the models
 const Dog = require('./data/dogModel');
+const Message = require('./data/messageModel');
 
 // Make .env file usable
 require('dotenv').config();
@@ -45,6 +46,7 @@ db.on('connected', () => {
 
 db.on('error', err => console.log(`MongoDB connection error: ${err}`));
 
+
 // Define the session
 let newSession = session({
   name: 'sid', // Session ID
@@ -65,12 +67,30 @@ let home = require('./routes/home');
 let matches = require('./routes/matches');
 
 
+// Source https://stackoverflow.com/questions/34252817/handlebarsjs-check-if-a-string-is-equal-to-a-value
+const equalCheck = function(a, b, options) {
+  if (a === b) { return options.fn(this); }
+  return options.inverse(this);
+
+};
+
+const notEqualCheck = function(a, b,  options) {
+
+  if (a !== b) { return options.fn(this); }
+  return options.inverse(this);
+
+};
+
 // Assign handlebars as the view engine
 app.engine('hbs', handlebars({
   extname: 'hbs',
   defaultLayout: 'main',
   layoutsDir: __dirname + '/views/layouts',
-  partialsDir: __dirname + '/views/partials'
+  partialsDir: __dirname + '/views/partials',
+  helpers: {
+    equal: equalCheck,
+    notEqual: notEqualCheck
+  }
 }))
 .set('view engine', 'hbs')
 
@@ -112,22 +132,42 @@ io.sockets.on('connection', socket => {
   // console.log('hello', socket.handshake.session.username);
   // console.log('session', socket.handshake.session);
 
-  socket.on('login', (dogData) => {
+  // socket.on('login', dogData => {
+  //
+  //   socket.handshake.session.user.email = dogData;
+  //   socket.handshake.session.save();
+  //
+  // });
+  //
+  // socket.on('logout', dogData => {
+  //
+  //   if (socket.handshake.session.dogdata) {
+  //     delete socket.handshake.session.dogdata;
+  //     socket.handshake.session.save();
+  //   }
+  //
+  // });
+  socket.on('message-to-db',(message) => {
 
-    socket.handshake.session.dogdata = dogData;
-    socket.handshake.session.save();
-
+    // Push new message to the database
+    Message.create([{
+      sendFrom: socket.handshake.session.user.email,
+      sendTo: socket.handshake.session.selected.email,
+      message: message.message,
+      receiver: socket.handshake.session.user.email,
+      date: message.date
+    }]);
+    // if sendFrom === this.user.email
+    //   add " self" class
   });
+  socket.on('delete-message', (id) => {
+    console.log('delete', id);
 
-  socket.on('logout', (dogData) => {
-
-    if (socket.handshake.session.dogdata) {
-      delete socket.handshake.session.dogdata;
-      socket.handshake.session.save();
-    }
-
+    Message.deleteOne({'_id': id}, err => {
+      if(err) throw err;
+      console.log('Succesfully deleted.');
+    });
   });
-
   // console.log('socket=', socket);
   // socket.user = ;
 
@@ -197,15 +237,30 @@ async function getDogs() {
 
 }
 
+async function getMessages() {
+
+  //just return the plain javascript object. instead of mongoose
+  return await Message.find().lean();
+
+}
+
+
+
 async function dogVariables(req, res, next) {
 
   console.log('--- Line 198 app.js ---');
-  console.log('req.body.email = ', req.body.email);
+  console.log('req.body.email = ', req.session.selected);
 
   const allDogs = await getDogs();
+  const allMessages = await getMessages();
+
+
+
   req.session.user = {email: req.body.email};
   req.session.matches = Dog.dogMatches(allDogs, req.session.user);
   req.session.allDogs = allDogs;
+  req.session.selected = Dog.selectedConversation(req.session.allDogs,req.session.user, 0);
+  req.session.messages =  Message.getMessages(allMessages, req.session.user.email, req.session.selected.email);
 
   next();
 
