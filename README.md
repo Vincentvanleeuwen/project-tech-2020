@@ -3,6 +3,8 @@
 Clone to your folder by using
 ```bash
 git clone https://github.com/Vincentvanleeuwen/project-tech-2020.git
+cd backend-development/dynamic-feature
+
 npm install
 ```
 

@@ -4,10 +4,52 @@ const socket = io();
 
 /*eslint-enable */
 
+// Chat elements
 const chatContainer = document.querySelector('.chat-container');
 const chatInput = document.getElementById('chat-input');
 const chatBulbContainer = document.querySelector('.chat-bulbs');
 const chatButtons = document.querySelectorAll('.single-match');
+
+// Block dog elements
+const dogSettingMenu = document.querySelector('.dropdown-menu');
+const dogSettingButton = document.getElementsByClassName('dog-settings')[0];
+const blockButton = document.querySelector('.block');
+const thisDog = document.querySelector('.this-dog');
+
+// Toggles the dog chat info menu
+if(dogSettingButton) {
+  dogSettingButton.addEventListener('click', (e) => {
+
+    dogSettingMenu.classList.toggle('show-menu');
+
+    if(!dogSettingMenu.classList.contains('show-menu')) {
+      dogSettingMenu.classList.toggle('hide-menu');
+      setTimeout(() => {
+        dogSettingMenu.classList.toggle('hide-menu');
+      }, 400);
+
+    }
+  });
+}
+
+if(blockButton) {
+  blockButton.addEventListener('click', () => {
+
+    console.log('Dog to block = ', thisDog.value, "@default.js:38");
+
+    // Emit the dog you want to block
+    socket.emit('block-user', thisDog.value);
+
+  });
+}
+
+socket.on('block-user', data => {
+
+  console.log(data);
+
+  deleteDogFromChat(data);
+
+});
 
 socket.on('message', message => {
 
@@ -19,10 +61,13 @@ socket.on('message', message => {
 
     addNewMessage(message);
     document.querySelector('.is-typing').remove();
+    socket.emit('message', message);
 
   }
 
 });
+
+// Listen for keypress to show the typing message.
 if (chatInput) {
 
   chatInput.addEventListener('keypress', () => {
@@ -33,7 +78,7 @@ if (chatInput) {
 
 }
 
-
+// When user is typing, show the other user that he is typing.
 socket.on('typing', data => {
 
   const isTyping = document.createElement('p');
@@ -48,6 +93,7 @@ socket.on('typing', data => {
   }
 
 });
+
 
 if(chatContainer) {
 
@@ -74,10 +120,11 @@ if(chatContainer) {
 
 }
 
-if (chatButtons) {
+if (chatButtons.length !== 0) {
 
   let currentlyActive = chatButtons[0];
 
+  // Set chat index to 0
   socket.emit('chat-index', 0);
 
   currentlyActive.classList.add('active-chat');
@@ -96,27 +143,18 @@ if (chatButtons) {
       // Set clicked element to current active element.
       currentlyActive = button;
 
-
       socket.emit('chat-index', getIndexOfChat(button));
 
       socket.emit('match-room', {email: 'bobby@gmail.com'});
 
-      document.post('/matches',
-        {
-          id: 'xyz'
-        },
-        function(context){ //the result of the res.render
 
-          //update the view
-          document.getElementsByTagName('body')[0].html(context);
-
-        });
 
     });
 
   });
 
 }
+
 
 function getIndexOfChat(button) {
 
@@ -160,6 +198,12 @@ function addNewMessage(message, receiver) {
 
   // Scroll to bottom to always see newest chat message
   chatBulbContainer.scrollTop = chatBulbContainer.scrollHeight - chatBulbContainer.clientHeight;
+
+}
+
+function deleteDogFromChat(dog) {
+
+  console.log(dog);
 
 }
 

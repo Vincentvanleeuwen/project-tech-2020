@@ -115,6 +115,21 @@
   .chat-container .dog-image {
     height: 25%;
   }
+
+  .chat-container .dog-image .dog-settings {
+    z-index: 10;
+    position: absolute;
+    right: 1em;
+    top: 1em;
+    max-height: 2em;
+    filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, 0.4));
+    cursor: pointer;
+  }
+
+  .chat-container .dog-image .dog-settings:hover {
+    transform: scale(1.1);
+    transition: 1s;
+  }
   .chat-container .chat-input {
     width: 100%;
     position: relative;
@@ -235,6 +250,50 @@
     opacity: 0.5;
     animation: fade-in .3s forwards;
   }
+
+  .dropdown-menu {
+    display: flex;
+    position: absolute;
+    background-color: var(--light-color);
+    z-index: 0;
+    height: 25%;
+    width: 15em;
+    right:0;
+    opacity: 0;
+    box-shadow: 3px 9px 18px 0 #00000012;
+    border-radius: 10px;
+
+  }
+  .dropdown-menu input {
+    height: 33%;
+    width: 100%;
+    background: var(--secondary-color);
+    color: white;
+    padding: 0 2em;
+    border: none;
+    display: flex;
+    justify-content: flex-end;
+    border-top-right-radius: 10px;
+    font-family: var(--heading);
+    outline: none;
+    cursor: pointer;
+  }
+  .dropdown-menu input:hover {
+    background: var(--primary-color);
+  }
+  .show-menu {
+    right:0;
+    opacity: 0;
+    animation: slide .4s forwards;
+  }
+  .hide-menu {
+    right:-15em;
+    opacity: 1;
+    animation: slide-back .4s backwards;
+  }
+  .dropdown-menu input, .hide-menu
+
+
 }
 
 @keyframes fade-in {
@@ -255,5 +314,28 @@
   }
   100% {
     margin-left: 0;
+  }
+}
+
+@keyframes slide {
+  0% {
+    right:0;
+    opacity: 0;
+  }
+  100% {
+    right: 8em;
+    opacity: 1;
+  }
+}
+
+@keyframes slide-back {
+  0% {
+    right: 8em;
+    opacity: 1;
+  }
+  100% {
+
+    right:0;
+    opacity: 0;
   }
 }

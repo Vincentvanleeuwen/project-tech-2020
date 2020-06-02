@@ -1,4 +1,33 @@
 /* Matching Buttons */
+.log-in-container {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.log-in-form {
+  height: 8em;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.log-in-button {
+ height: 100%;
+  width: 100%;
+  outline: none;
+  border: none;
+  background: url('../media/images/accept.svg');
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.log-in-form:last-of-type .log-in-button {
+
+  background: url('../media/images/decline.svg');
+  background-repeat: no-repeat;
+}
+
 .match-buttons {
   align-items: center;
   flex-direction: row;
@@ -267,11 +296,8 @@
     padding-left: 75px;
   }
 
-  .match-button {
-    /*margin-bottom: 0;*/
-  }
   .match-button:hover:last-child, .match-button:hover:first-child {
-    margin-bottom: 5px;
+
     transform: scale(1.1);
     transition: 1s;
     cursor:pointer;
