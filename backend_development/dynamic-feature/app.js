@@ -152,16 +152,24 @@ io.sockets.on('connection', socket => {
   });
 
   // When user clicks on block this dog, block the dog
-  socket.on('block-user', data => {
+  socket.on('block-user', email => {
 
     let currentDog = Dog.getDogFromEmail(socket.handshake.session.allDogs, socket.handshake.session.user);
-    console.log('blocked user = ', data);
+    console.log('blocked user = ', email);
+    console.log('current user = ', socket.handshake.session.user);
 
-    let newMatches = Dog.blockMatch(socket.handshake.session.allDogs, data, currentDog[0].matches);
+    let newMatches = Dog.blockMatch(email, currentDog[0].matches);
 
+    async function updateDog() {
+      return await Dog.updateOne(
+        {'email': socket.handshake.session.user.email},
+        {matches: newMatches}
+      );
+    }
+    updateDog();
     console.log('newMathces = ', newMatches);
 
-    socket.broadcast.emit('block-user', {matches: newMatches});
+    // socket.broadcast.emit('block-user', {matches: newMatches});
 
 
   });

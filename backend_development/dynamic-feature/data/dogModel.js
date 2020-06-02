@@ -20,8 +20,12 @@ dogSchema.statics = {
 
   blockMatch: (match, currentDog) => {
 
-    console.log('blockFunction =', match, currentDog)
-
+    console.log('blockFunction =', match, currentDog);
+    return currentDog.filter(dog => {
+      if (dog !== match) {
+        return dog;
+      }
+    });
   },
 
   dogMatches: (dogs, currentDog) => {

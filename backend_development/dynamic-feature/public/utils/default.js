@@ -41,8 +41,6 @@ if(blockButton) {
     socket.emit('block-user', thisDog.value);
 
   });
-
-
 }
 
 socket.on('block-user', data => {
@@ -156,6 +154,7 @@ if (chatButtons.length !== 0) {
   });
 
 }
+
 
 function getIndexOfChat(button) {
 
