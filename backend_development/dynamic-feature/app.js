@@ -12,15 +12,22 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const sharedSessions = require('express-socket.io-session');
 const cookieParser = require('cookie-parser');
+
+// Require the models
 const Dog = require('./data/dogModel');
 
+// Make .env file usable
 require('dotenv').config();
+
+// Set the port
 const port = 4000 || process.env.PORT;
+
 let db;
 
 // Initialize MongoDB
 const dbUrl = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@playdate-npesr.mongodb.net/playdatedatabase?retryWrites=true&w=majority`;
 
+// Connect to the Database
 mongoose.connect(dbUrl, {
 
   useNewUrlParser: true,
@@ -56,9 +63,6 @@ let newSession = session({
 // Require the routes
 let home = require('./routes/home');
 let matches = require('./routes/matches');
-
-let chatIndex = 0;
-// let hardCodedUser = 'bobby@gmail.com';
 
 
 // Assign handlebars as the view engine
