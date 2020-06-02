@@ -8,6 +8,7 @@ PlayDate is a playdate service that matches you to another dog to play with. The
 - Express Js
 - MongoDB
 - Mongoose
+- Socket IO
 - Express-sessions
 - Express-socket.io-sessions
 
