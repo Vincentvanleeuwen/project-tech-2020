@@ -2,7 +2,7 @@
 
 Clone to your folder by using
 ```bash
-git clone 
+git clone https://github.com/Vincentvanleeuwen/project-tech-2020.git
 npm install
 ```
 
