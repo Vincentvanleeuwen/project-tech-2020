@@ -1,2 +1,12 @@
-# project-tech-2020
-Opdrachten van Project Tech 2020
+# PlayDate
+
+Clone to your folder by using
+```bash
+git clone 
+npm install
+```
+
+Start the project by running
+```bash
+npm start
+```
