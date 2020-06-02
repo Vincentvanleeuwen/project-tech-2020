@@ -4,18 +4,17 @@ const socket = io();
 
 /*eslint-enable */
 
+// Chat elements
 const chatContainer = document.querySelector('.chat-container');
 const chatInput = document.getElementById('chat-input');
 const chatBulbContainer = document.querySelector('.chat-bulbs');
 const chatButtons = document.querySelectorAll('.single-match');
 
+// Block dog elements
 const dogSettingMenu = document.querySelector('.dropdown-menu');
 const dogSettingButton = document.getElementsByClassName('dog-settings')[0];
 const blockButton = document.querySelector('.block');
 const thisDog = document.querySelector('.this-dog');
-
-console.log("Show dogsettingbutton = ", dogSettingButton[0]);
-
 
 // Toggles the dog chat info menu
 if(dogSettingButton) {
@@ -36,8 +35,9 @@ if(dogSettingButton) {
 if(blockButton) {
   blockButton.addEventListener('click', () => {
 
-    console.log('blockeduserdata= ', thisDog.value);
+    console.log('Dog to block = ', thisDog.value, "@default.js:38");
 
+    // Emit the dog you want to block
     socket.emit('block-user', thisDog.value);
 
   });

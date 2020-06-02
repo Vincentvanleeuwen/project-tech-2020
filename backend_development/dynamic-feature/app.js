@@ -58,7 +58,7 @@ let home = require('./routes/home');
 let matches = require('./routes/matches');
 
 let chatIndex = 0;
-let hardCodedUser = 'bobby@gmail.com';
+// let hardCodedUser = 'bobby@gmail.com';
 
 
 // Assign handlebars as the view engine
@@ -85,7 +85,6 @@ app.engine('hbs', handlebars({
 .use(bodyParser.urlencoded({extended: true}))
 
 .use('/',
-  dogVariables,
   home
 )
 
@@ -106,7 +105,7 @@ io.sockets.on('connection', socket => {
 
   socket.emit('sessiondata', socket.handshake.session);
 
-  console.log('hello', socket.handshake.session.username);
+  // console.log('hello', socket.handshake.session.username);
   // console.log('session', socket.handshake.session);
 
   socket.on('login', (dogData) => {
@@ -196,8 +195,11 @@ async function getDogs() {
 
 async function dogVariables(req, res, next) {
 
+  console.log('--- Line 198 app.js ---');
+  console.log('req.body.email = ', req.body.email);
+
   const allDogs = await getDogs();
-  req.session.user = {email: hardCodedUser};
+  req.session.user = {email: req.body.email};
   req.session.matches = Dog.dogMatches(allDogs, req.session.user);
   req.session.allDogs = allDogs;
 

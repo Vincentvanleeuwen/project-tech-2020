@@ -19,20 +19,21 @@ router.get('/', (req, res) => {
 
 });
 
-// router.post('/', (req, res) => {
-//
-//
-//   res.render('matches', {
-//
-//     title: 'Your Matches',
-//     style: 'matches.css',
-//     match: req.session.matches,
-//     selected: req.session.selected,
-//     user: req.session.user
-//
-//   });
-//
-// });
+router.post('/', (req, res) => {
+
+  console.log(req.body.email);
+
+  res.render('matches', {
+
+    title: 'Logged in as ' + req.body.name,
+    style: 'matches.css',
+    match: req.session.matches,
+    selected: req.session.selected,
+    user: req.body.email
+
+  });
+
+});
 
 // Export the router so it can be required in other files.
 module.exports = router;
