@@ -23,5 +23,5 @@ $ npm install
 
 ## Start the project by running
 ```bash
-$ npm start
+$ npm run dev
 ```
