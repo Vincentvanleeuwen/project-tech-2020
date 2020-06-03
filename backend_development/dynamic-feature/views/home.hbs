@@ -1,6 +1,5 @@
 {{#> layouts/main }}
 
-
   {{!--  Render a dog--}}
   {{#with dogs.[0] }}
     {{> singleMatch
@@ -16,20 +15,24 @@
       personality = personality
     }}
 
-
   {{/with}}
-
 
   {{!--  Match buttons on mobile --}}
   <section class="match-buttons disabled">
+
     <div class="match-button">
+
       <img src="../public/media/images/decline.svg"
            alt="Match this dog!"/>
+
     </div>
     <div class="match-button">
+
       <img src="../public/media/images/accept.svg"
            alt="Match this dog!"/>
+
     </div>
+
   </section>
 
 {{/layouts/main}}

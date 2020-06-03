@@ -15,10 +15,15 @@
   </section>
 
   <form class="dropdown-menu">
+
     <label for="dog-match" style="display:none">
+
       <input type="text" value="{{ selected.email }}" name="dog-match" class="this-dog">
+
     </label>
+
     <input type="submit" value="Block this dog" class="block">
+
   </form>
 
 
@@ -47,6 +52,7 @@
     </section>
 
     <div class="chat-bulbs">
+
   {{!--  All the chat messages appear in this container--}}
   {{!--      See logic in public/utils/default.js--}}
 
@@ -59,6 +65,7 @@
           sendFrom = sendFrom
         }}
       {{/ each }}
+
     </div>
 
     <form class="chat-input" autocomplete="off">

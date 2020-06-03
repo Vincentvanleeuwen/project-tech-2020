@@ -11,45 +11,51 @@ const chatBulbContainer = document.querySelector('.chat-bulbs');
 const chatButtons = document.querySelectorAll('.single-match');
 const bulb = document.querySelectorAll('.bulb');
 
-
 // Block dog elements
 const dogSettingMenu = document.querySelector('.dropdown-menu');
 const dogSettingButton = document.getElementsByClassName('dog-settings')[0];
 const blockButton = document.querySelector('.block');
 const thisDog = document.querySelector('.this-dog');
 
-
-
 // Toggles the dog chat info menu
 if(dogSettingButton) {
+
   dogSettingButton.addEventListener('click', (e) => {
 
     dogSettingMenu.classList.toggle('show-menu');
 
     if(!dogSettingMenu.classList.contains('show-menu')) {
+
       dogSettingMenu.classList.toggle('hide-menu');
+
       setTimeout(() => {
         dogSettingMenu.classList.toggle('hide-menu');
       }, 400);
 
     }
-  });
-}
 
+  });
+
+}
 
 // Delete a message
 if (bulb.length !== 0) {
+
   bulb.forEach(bulb => {
+
     bulb.addEventListener('click', () => {
 
       socket.emit('delete-message', bulb.id);
       bulb.remove();
 
     });
-  })
+
+  });
+
 }
 
 if(blockButton) {
+
   blockButton.addEventListener('click', () => {
 
     console.log('Dog to block = ', thisDog.value, "@default.js:38");
@@ -58,6 +64,7 @@ if(blockButton) {
     socket.emit('block-user', thisDog.value);
 
   });
+
 }
 
 socket.on('block-user', data => {

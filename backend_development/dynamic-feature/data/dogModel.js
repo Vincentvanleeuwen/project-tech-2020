@@ -20,12 +20,14 @@ dogSchema.statics = {
 
   blockMatch: (match, currentDog) => {
 
-    console.log('blockFunction =', match, currentDog);
     return currentDog.filter(dog => {
+
       if (dog !== match) {
         return dog;
       }
+
     });
+
   },
 
   dogMatches: (dogs, currentDog) => {
@@ -60,8 +62,6 @@ dogSchema.statics = {
   },
 
   selectedConversation(dogs, currentDog, index) {
-
-    console.log('index =',index);
 
     // Get first dog in array to open instantly.
     return mongoose.model('dogModel', dogSchema).dogMatches(dogs, currentDog)[index];

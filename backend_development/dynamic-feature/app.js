@@ -49,6 +49,7 @@ db.on('error', err => console.log(`MongoDB connection error: ${err}`));
 
 // Define the session
 let newSession = session({
+
   name: 'sid', // Session ID
   resave: false, // Don't send data back to the store
   saveUninitialized: true,
@@ -59,6 +60,7 @@ let newSession = session({
     secure: false
   },
   store: new MongoStore({mongooseConnection: db})
+
 });
 
 
@@ -69,6 +71,7 @@ let matches = require('./routes/matches');
 
 // Source https://stackoverflow.com/questions/34252817/handlebarsjs-check-if-a-string-is-equal-to-a-value
 const equalCheck = function(a, b, options) {
+
   if (a === b) { return options.fn(this); }
   return options.inverse(this);
 
@@ -129,24 +132,6 @@ io.sockets.on('connection', socket => {
 
   socket.emit('sessiondata', socket.handshake.session);
 
-  // console.log('hello', socket.handshake.session.username);
-  // console.log('session', socket.handshake.session);
-
-  // socket.on('login', dogData => {
-  //
-  //   socket.handshake.session.user.email = dogData;
-  //   socket.handshake.session.save();
-  //
-  // });
-  //
-  // socket.on('logout', dogData => {
-  //
-  //   if (socket.handshake.session.dogdata) {
-  //     delete socket.handshake.session.dogdata;
-  //     socket.handshake.session.save();
-  //   }
-  //
-  // });
   socket.on('message-to-db',(message) => {
 
     // Push new message to the database
@@ -157,21 +142,21 @@ io.sockets.on('connection', socket => {
       receiver: socket.handshake.session.user.email,
       date: message.date
     }]);
-    // if sendFrom === this.user.email
-    //   add " self" class
+
   });
+
   socket.on('delete-message', (id) => {
+
     console.log('delete', id);
 
     Message.deleteOne({'_id': id}, err => {
+
       if(err) throw err;
       console.log('Succesfully deleted.');
-    });
-  });
-  // console.log('socket=', socket);
-  // socket.user = ;
 
-  // console.log('username: ', req.session);
+    });
+
+  });
 
   socket.on('match-room', data => {
 
@@ -204,16 +189,17 @@ io.sockets.on('connection', socket => {
     let newMatches = Dog.blockMatch(email, currentDog[0].matches);
 
     async function updateDog() {
+
       return await Dog.updateOne(
         {'email': socket.handshake.session.user.email},
-        {matches: newMatches}
+        {'matches': newMatches}
       );
+
     }
+
     updateDog();
+
     console.log('newMathces = ', newMatches);
-
-    // socket.broadcast.emit('block-user', {matches: newMatches});
-
 
   });
 
@@ -244,8 +230,6 @@ async function getMessages() {
 
 }
 
-
-
 async function dogVariables(req, res, next) {
 
   console.log('--- Line 198 app.js ---');
@@ -253,8 +237,6 @@ async function dogVariables(req, res, next) {
 
   const allDogs = await getDogs();
   const allMessages = await getMessages();
-
-
 
   req.session.user = {email: req.body.email};
   req.session.matches = Dog.dogMatches(allDogs, req.session.user);
