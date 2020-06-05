@@ -18,6 +18,27 @@ const dogSchema = new Schema({
 
 dogSchema.statics = {
 
+  //just return the plain javascript object. instead of mongoose
+  getDogs: async () => mongoose.model('dogModel', dogSchema).find().lean(),
+
+  updateDog: async (dog) => {
+
+    return await Dog.updateOne(
+
+      {'email': dog.email},
+      {'name': dog.name},
+      {'matches': dog.matches},
+      {'description': dog.description},
+      {'images': dog.images},
+      {'breed': dog.breed},
+      {'favToy': dog.favToy},
+      {'age': dog.age},
+      {'personality': dog.personality}
+
+    );
+
+  },
+
   blockMatch: (match, currentDog) => {
 
     return currentDog.filter(dog => {

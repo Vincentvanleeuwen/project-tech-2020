@@ -4,6 +4,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const handlebars = require('express-handlebars');
+const { notEqualCheck, equalCheck } = require('./public/utils/handleHelpers');
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
@@ -31,6 +32,7 @@ const dbUrl = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWOR
 // Connect to the Database
 mongoose.connect(dbUrl, {
 
+  // Prevent connection error
   useNewUrlParser: true,
   useUnifiedTopology: true,
 
@@ -69,21 +71,6 @@ let home = require('./routes/home');
 let matches = require('./routes/matches');
 
 
-// Source https://stackoverflow.com/questions/34252817/handlebarsjs-check-if-a-string-is-equal-to-a-value
-const equalCheck = function(a, b, options) {
-
-  if (a === b) { return options.fn(this); }
-  return options.inverse(this);
-
-};
-
-const notEqualCheck = function(a, b,  options) {
-
-  if (a !== b) { return options.fn(this); }
-  return options.inverse(this);
-
-};
-
 // Assign handlebars as the view engine
 app.engine('hbs', handlebars({
   extname: 'hbs',
@@ -120,9 +107,6 @@ app.engine('hbs', handlebars({
   dogVariables,
   matches
 );
-// Once all the dogs are received, start express
-
-// See all the dogs
 
 
 io.use(sharedSessions(newSession));
@@ -130,8 +114,7 @@ io.use(sharedSessions(newSession));
 // Initialize Socket.io
 io.sockets.on('connection', socket => {
 
-  socket.emit('sessiondata', socket.handshake.session);
-
+  // Save message to database
   socket.on('message-to-db',(message) => {
 
     // Push new message to the database
@@ -145,6 +128,7 @@ io.sockets.on('connection', socket => {
 
   });
 
+  // When user clicks block (socket.emit @default.js)
   socket.on('delete-message', (id) => {
 
     console.log('delete', id);
@@ -158,6 +142,7 @@ io.sockets.on('connection', socket => {
 
   });
 
+  // Unfinished Socket function.
   socket.on('match-room', data => {
 
     socket.join(data.email);
@@ -172,10 +157,9 @@ io.sockets.on('connection', socket => {
   });
 
   // When a dog is typing, show it to the other dog.
-  socket.on('typing', data => {
+  socket.on('typing', () => {
 
-    socket.broadcast.emit('typing', {username: socket.user});
-    console.log('isTyping=', data);
+    socket.broadcast.emit('typing', {username: socket.handshake.session.user.name});
 
   });
 
@@ -183,62 +167,41 @@ io.sockets.on('connection', socket => {
   socket.on('block-user', email => {
 
     let currentDog = Dog.getDogFromEmail(socket.handshake.session.allDogs, socket.handshake.session.user);
+
     console.log('blocked user = ', email);
     console.log('current user = ', socket.handshake.session.user);
 
-    let newMatches = Dog.blockMatch(email, currentDog[0].matches);
+    socket.handshake.session.user.matches = Dog.blockMatch(email, currentDog[0].matches);
 
-    async function updateDog() {
+    // Update matches
+    Dog.updateDog(socket.handshake.session.user)
+    .then(result => console.log("result is", result))
+    .catch(err => console.log(err));
 
-      return await Dog.updateOne(
-        {'email': socket.handshake.session.user.email},
-        {'matches': newMatches}
-      );
-
-    }
-
-    updateDog();
-
-    console.log('newMathces = ', newMatches);
 
   });
 
   // When a chat is opened, change req.session.selected to new dog
   socket.on('chat-index', index => {
 
+    // Change the selected chat
     socket.handshake.session.selected = Dog.selectedConversation(socket.handshake.session.allDogs,socket.handshake.session.user, index);
-
-    console.log('req select', socket.handshake.session.selected); // Is the correct Object!
-
     socket.handshake.session.save();
 
   });
 
 });
 
-async function getDogs() {
 
-  //just return the plain javascript object. instead of mongoose
-  return await Dog.find().lean();
-
-}
-
-async function getMessages() {
-
-  //just return the plain javascript object. instead of mongoose
-  return await Message.find().lean();
-
-}
 
 async function dogVariables(req, res, next) {
 
-  console.log('--- Line 198 app.js ---');
-  console.log('req.body.email = ', req.session.selected);
+  // Get dogs collection & messages collection from mongoDB
+  const allDogs = await Dog.getDogs();
+  const allMessages = await Message.getAllMessages();
 
-  const allDogs = await getDogs();
-  const allMessages = await getMessages();
-
-  req.session.user = {email: req.body.email};
+  // Set the session for this user
+  req.session.user = {email: req.body.email, name: req.body.name};
   req.session.matches = Dog.dogMatches(allDogs, req.session.user);
   req.session.allDogs = allDogs;
   req.session.selected = Dog.selectedConversation(req.session.allDogs,req.session.user, 0);

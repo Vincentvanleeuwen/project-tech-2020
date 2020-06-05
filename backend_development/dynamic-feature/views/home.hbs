@@ -17,21 +17,35 @@
 
   {{/with}}
 
-  {{!--  Match buttons on mobile --}}
-  <section class="match-buttons disabled">
+{{!--    Match buttons on mobile--}}
 
-    <div class="match-button">
 
-      <img src="../public/media/images/decline.svg"
-           alt="Match this dog!"/>
+  <section class="log-in-container-mobile disabled">
 
-    </div>
-    <div class="match-button">
+    <form action="/matches" method="post" class="log-in-form">
 
-      <img src="../public/media/images/accept.svg"
-           alt="Match this dog!"/>
+      <label for="name" style="display:none">
+        <input type="text" value="{{ dogs.[0].name }}" name="name">
+      </label>
 
-    </div>
+      <label for="email" style="display:none">
+        <input type="text" value="{{ dogs.[0].email }}" name="email">
+      </label>
+
+      <input type="submit" value="" class="log-in-button">
+
+    </form>
+
+    <form action="/" method="post" class="log-in-form">
+
+      <label for="next-dog" style="display:none">
+        <input type="text" value="{{dogs.[0].email}}" name="next-dog">
+      </label>
+
+      <input type="submit" value="" class="log-in-button">
+
+    </form>
+
 
   </section>
 

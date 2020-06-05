@@ -9,12 +9,13 @@
         dogImage = images.[0]
         chatStatus = status
         lastMessage = lastMessage
+        email = email
       }}
     {{/ each }}
 
   </section>
 
-  <form class="dropdown-menu">
+  <form class="dropdown-menu" action="/matches" method="post">
 
     <label for="dog-match" style="display:none">
 
@@ -39,13 +40,13 @@
 
 
 
-      {{# with selected }}
 
-        <img src="../public/media/images/bobby/{{ images.[0] }}"
+
+        <img src="../public/media/images/dogs/{{ selected.images.[0] }}"
              alt="Bobby"
              class="main-image"/>
 
-      {{/ with }}
+
 
 
 

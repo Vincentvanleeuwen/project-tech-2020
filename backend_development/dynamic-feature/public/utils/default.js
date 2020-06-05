@@ -44,9 +44,14 @@ if (bulb.length !== 0) {
   bulb.forEach(bulb => {
 
     bulb.addEventListener('click', () => {
+      if (confirm("Do you really want to delete this message?")) {
 
-      socket.emit('delete-message', bulb.id);
-      bulb.remove();
+        socket.emit('delete-message', bulb.id);
+        bulb.remove();
+      } else {
+        console.log('cancelled deletion');
+      }
+
 
     });
 
@@ -105,6 +110,8 @@ if (chatInput) {
 // When user is typing, show the other user that he is typing.
 socket.on('typing', data => {
 
+  console.log(data);
+
   const isTyping = document.createElement('p');
   const typingMessage = document.createTextNode(`${data.username} is typing...`);
   isTyping.classList += ' is-typing';
@@ -117,6 +124,7 @@ socket.on('typing', data => {
   }
 
 });
+
 
 
 if(chatContainer) {
@@ -132,8 +140,10 @@ if(chatContainer) {
 
     } else {
 
+      // Show message to the view
       addNewMessage(message, ' self');
 
+      // Save the message to the database
       socket.emit('message-to-db', {
         message: message,
         date: new Date()
@@ -141,6 +151,7 @@ if(chatContainer) {
       })
 
     }
+
     socket.emit('dog-message', message);
 
     // Clear the input when someone sends their message
@@ -149,6 +160,7 @@ if(chatContainer) {
   });
 
 }
+
 
 if (chatButtons.length !== 0) {
 
@@ -175,7 +187,8 @@ if (chatButtons.length !== 0) {
 
       socket.emit('chat-index', getIndexOfChat(button));
 
-      socket.emit('match-room', {email: 'bobby@gmail.com'});
+
+      socket.emit('match-room', {email: socket.handshake.session.user.email});
 
 
 

@@ -59,29 +59,25 @@
 
       </section>
       <section class="log-in-container">
+
         <form action="/matches" method="post" class="log-in-form">
 
           <label for="name" style="display:none">
-
             <input type="text" value="{{ name }}" name="name">
-
           </label>
+
           <label for="email" style="display:none">
-
             <input type="text" value="{{ email }}" name="email">
-
           </label>
 
           <input type="submit" value="" class="log-in-button">
 
         </form>
-        {{!--  Make into form--}}
+
         <form action="/" method="post" class="log-in-form">
 
           <label for="next-dog" style="display:none">
-
             <input type="text" value="{{email}}" name="next-dog">
-
           </label>
 
           <input type="submit" value="" class="log-in-button">

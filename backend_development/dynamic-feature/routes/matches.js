@@ -17,7 +17,10 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+  console.log('matchesjs', req.session.next);
 
+
+  console.log('matches', req.session.selected);
   res.render('matches', {
 
     title: 'Logged in as ' + req.body.name,
