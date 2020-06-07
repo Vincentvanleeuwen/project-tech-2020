@@ -53,9 +53,4 @@ async function dogVariables(req, res, next) {
 
 }
 
-
-
-
-
-
 module.exports = { db, dogVariables };
