@@ -1,6 +1,7 @@
 /*eslint-disable */
 
 const socket = io();
+let dogConnection = io.connect();
 
 /*eslint-enable */
 
@@ -110,8 +111,6 @@ if (chatInput) {
 // When user is typing, show the other user that he is typing.
 socket.on('typing', data => {
 
-  console.log(data);
-
   const isTyping = document.createElement('p');
   const typingMessage = document.createTextNode(`${data.username} is typing...`);
   isTyping.classList += ' is-typing';
@@ -132,7 +131,9 @@ if(chatContainer) {
   chatContainer.addEventListener('submit', e => {
 
     e.preventDefault();
+
     const message = chatInput.value;
+
 
     if (message.length === 0) {
 
@@ -152,7 +153,9 @@ if(chatContainer) {
 
     }
 
-    socket.emit('dog-message', message);
+    console.log(socket.id);
+
+    socket.emit('dog-message', socket.id, message);
 
     // Clear the input when someone sends their message
     chatInput.value = '';
@@ -166,8 +169,10 @@ if (chatButtons.length !== 0) {
 
   let currentlyActive = chatButtons[0];
 
+  let room = chatButtons[0].getAttribute('data-room');
   // Set chat index to 0
   socket.emit('chat-index', 0);
+  socket.emit('match-room', room);
 
   currentlyActive.classList.add('active-chat');
 
@@ -175,6 +180,9 @@ if (chatButtons.length !== 0) {
 
 
     button.addEventListener('click', () => {
+
+      // Get the room
+      const room = button.getAttribute('data-room');
 
       // Remove the active class
       currentlyActive.classList.remove('active-chat');
@@ -187,8 +195,9 @@ if (chatButtons.length !== 0) {
 
       socket.emit('chat-index', getIndexOfChat(button));
 
+      console.log('room', room);
 
-      socket.emit('match-room', {email: socket.handshake.session.user.email});
+      socket.emit('match-room', room);
 
 
 

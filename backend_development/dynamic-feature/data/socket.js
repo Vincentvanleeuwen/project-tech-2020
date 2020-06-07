@@ -5,6 +5,7 @@ const Dog = require('./dogModel');
 const initializeSocketIO = (server, newSession) => {
 
   const io = require('socket.io')(server);
+  let room;
 
   io.use(sharedSessions(newSession));
 
@@ -40,16 +41,26 @@ const initializeSocketIO = (server, newSession) => {
     });
 
     // Unfinished Socket function.
-    socket.on('match-room', data => {
+    socket.on('match-room', roomID => {
 
-      socket.join(data.email);
+      if(socket.roomID) {
+
+        console.log('Left the socket!', socket.roomID);
+
+        socket.leave(socket.roomID);
+
+      }
+
+      room = roomID;
+
+      socket.join(room);
 
     });
 
     // When a dog submits a message
-    socket.on('dog-message', message => {
+    socket.on('dog-message', (id, message) => {
 
-      socket.broadcast.emit('message', message);
+      socket.broadcast.to(id).emit('message', message);
 
     });
 
